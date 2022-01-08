@@ -54,10 +54,15 @@ public class StringUtils {
         return UPPER_TO_LOWER.get(clazz.getSimpleName().charAt(0)) + clazz.getSimpleName().substring(1);
     }
 
-    public static <T> String getCamelName(String name) {
-        if (Objects.isNull(name) || name.isEmpty()) {
+    public static String getCamelName(String name) {
+        if (Objects.isNull(name)) {
             return "null";
         }
+
+        if (name.isEmpty()) {
+            return EMPTY_STRING;
+        }
+
         if (UPPER_TO_LOWER.containsKey(name.charAt(0))) {
             return UPPER_TO_LOWER.get(name.charAt(0)) + name.substring(1);
         }
