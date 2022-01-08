@@ -1,6 +1,13 @@
 # Compiled class file
 *.class
 
+# 忽略
+.idea
+*.iml
+decision-common/target
+decision-core/target
+decision-test/target
+
 # Log file
 *.log
 
