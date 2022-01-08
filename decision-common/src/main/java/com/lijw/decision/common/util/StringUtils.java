@@ -38,7 +38,7 @@ public class StringUtils {
         UPPER_TO_LOWER.put('Z', 'z');
     }
 
-    public static final String EMPTY_STRING = "";
+    public static final String EMPTY = "";
 
     /**
      * 把第一个字符转为小写
@@ -60,7 +60,7 @@ public class StringUtils {
         }
 
         if (name.isEmpty()) {
-            return EMPTY_STRING;
+            return EMPTY;
         }
 
         if (UPPER_TO_LOWER.containsKey(name.charAt(0))) {
