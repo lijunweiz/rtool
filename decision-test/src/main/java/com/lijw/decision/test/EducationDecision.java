@@ -1,15 +1,18 @@
 package com.lijw.decision.test;
 
+import com.lijw.decision.common.util.StringUtils;
 import com.lijw.decision.core.AbstractDecision;
 import com.lijw.decision.core.Context;
-import com.lijw.decision.core.DecideResult;
 import lombok.extern.java.Log;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Log
 public class EducationDecision extends AbstractDecision {
+
+	private String decisionName;
 
 	@Override
 	public Boolean canDecide(Context context) {
@@ -26,7 +29,11 @@ public class EducationDecision extends AbstractDecision {
 	}
 
 	@Override
-	public <T> String getDecisionName(Class<T> clazz) {
-		return super.getDecisionName(clazz);
+	public String getDecisionName() {
+		if (Objects.isNull(decisionName) || StringUtils.EMPTY.equals(decisionName)) {
+			decisionName = StringUtils.getCamelName(EducationDecision.class);
+		}
+
+		return decisionName;
 	}
 }
