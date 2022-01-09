@@ -1,4 +1,4 @@
-package com.lijw.decision.common.util;
+package com.lijw.decision.core.util;
 
 import java.util.HashMap;
 import java.util.Map;
