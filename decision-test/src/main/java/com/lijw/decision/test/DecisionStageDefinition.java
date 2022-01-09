@@ -1,14 +1,10 @@
 package com.lijw.decision.test;
 
 import com.lijw.decision.core.DecisionStage;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 /**
  * 决策属于什么阶段，即决策流走到哪一步
  */
-@Getter
-@AllArgsConstructor
 public enum DecisionStageDefinition implements DecisionStage {
 
     EDUCATION("0001", "教育", "education"),
@@ -22,4 +18,21 @@ public enum DecisionStageDefinition implements DecisionStage {
     /** 执行阶段英文代码 */
     private String stageNameEN;
 
+    DecisionStageDefinition(String stageValue, String stageNameCN, String stageNameEN) {
+        this.stageValue = stageValue;
+        this.stageNameCN = stageNameCN;
+        this.stageNameEN = stageNameEN;
+    }
+
+    public String getStageValue() {
+        return stageValue;
+    }
+
+    public String getStageNameCN() {
+        return stageNameCN;
+    }
+
+    public String getStageNameEN() {
+        return stageNameEN;
+    }
 }

@@ -1,16 +1,18 @@
 package com.lijw.decision.test;
 
-import com.lijw.decision.common.util.StringUtils;
 import com.lijw.decision.core.AbstractDecision;
 import com.lijw.decision.core.Context;
-import lombok.extern.java.Log;
+import com.lijw.decision.core.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-@Log
 public class EducationDecision extends AbstractDecision {
+
+	private Logger logger = LoggerFactory.getLogger(EducationDecision.class);
 
 	private String decisionName;
 
@@ -21,7 +23,7 @@ public class EducationDecision extends AbstractDecision {
 
 	@Override
 	public void decide(Context context) {
-		log.info("获取决策数据项: education");
+		logger.info("获取决策数据项: education");
 		Education item = context.getDecisionItem(Education.class);
 		Map<String, Object> data = new HashMap<>();
 		data.put("edu", "eduData");

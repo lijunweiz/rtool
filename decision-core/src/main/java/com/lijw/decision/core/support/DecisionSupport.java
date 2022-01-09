@@ -1,7 +1,7 @@
 package com.lijw.decision.core.support;
 
-import com.lijw.decision.common.util.StringUtils;
 import com.lijw.decision.core.DecisionFunction;
+import com.lijw.decision.core.util.StringUtils;
 
 import java.util.*;
 

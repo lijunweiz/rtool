@@ -1,17 +1,13 @@
 package com.lijw.decision.core;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 决策结果
  */
-@NoArgsConstructor
-@Data
 public class DecideResult implements Serializable {
 
     /** 当前决策项 */
@@ -38,5 +34,101 @@ public class DecideResult implements Serializable {
     /** 返回给客户端的决策结果数据 */
     private Map<String, Object> data = new HashMap<>();
 
+    public DecisionStage getDecisionStage() {
+        return decisionStage;
+    }
 
+    public void setDecisionStage(DecisionStage decisionStage) {
+        this.decisionStage = decisionStage;
+    }
+
+    public Boolean getCurrentPass() {
+        return currentPass;
+    }
+
+    public void setCurrentPass(Boolean currentPass) {
+        this.currentPass = currentPass;
+    }
+
+    public Boolean getPreviousPast() {
+        return previousPast;
+    }
+
+    public void setPreviousPast(Boolean previousPast) {
+        this.previousPast = previousPast;
+    }
+
+    public Boolean getForceContinue() {
+        return forceContinue;
+    }
+
+    public void setForceContinue(Boolean forceContinue) {
+        this.forceContinue = forceContinue;
+    }
+
+    public Boolean getPass() {
+        return pass;
+    }
+
+    public void setPass(Boolean pass) {
+        this.pass = pass;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public Map<String, Object> getData() {
+        return data;
+    }
+
+    public void setData(Map<String, Object> data) {
+        this.data = data;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DecideResult result = (DecideResult) o;
+        return Objects.equals(decisionStage, result.decisionStage)
+                && Objects.equals(currentPass, result.currentPass)
+                && Objects.equals(previousPast, result.previousPast)
+                && Objects.equals(forceContinue, result.forceContinue)
+                && Objects.equals(pass, result.pass)
+                && Objects.equals(msg, result.msg)
+                && Objects.equals(code, result.code)
+                && Objects.equals(data, result.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(decisionStage, currentPass, previousPast, forceContinue, pass, msg, code, data);
+    }
+
+    @Override
+    public String toString() {
+        return "DecideResult{" +
+                "decisionStage=" + decisionStage +
+                ", currentPass=" + currentPass +
+                ", previousPast=" + previousPast +
+                ", forceContinue=" + forceContinue +
+                ", pass=" + pass +
+                ", msg='" + msg + '\'' +
+                ", code=" + code +
+                ", data=" + data +
+                '}';
+    }
 }

@@ -1,13 +1,8 @@
 package com.lijw.decision.core;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * 决策状态
  */
-@Getter
-@AllArgsConstructor
 public enum DecisionStatus {
 
     CONFIRM(1, "请求确认"),
@@ -20,4 +15,16 @@ public enum DecisionStatus {
 
     private String statusDesc;
 
+    DecisionStatus(Integer statusValue, String statusDesc) {
+        this.statusValue = statusValue;
+        this.statusDesc = statusDesc;
+    }
+
+    public Integer getStatusValue() {
+        return statusValue;
+    }
+
+    public String getStatusDesc() {
+        return statusDesc;
+    }
 }

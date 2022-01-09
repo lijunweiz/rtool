@@ -1,11 +1,14 @@
 package com.lijw.decision.test.main;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lijw.decision.common.util.StringUtils;
 import com.lijw.decision.core.Context;
 import com.lijw.decision.core.exception.CannotDecisionException;
 import com.lijw.decision.core.support.DecisionTemplate;
-import com.lijw.decision.test.*;
+import com.lijw.decision.core.util.StringUtils;
+import com.lijw.decision.test.DecisionStageDefinition;
+import com.lijw.decision.test.Education;
+import com.lijw.decision.test.Phone;
+import com.lijw.decision.test.Profession;
 
 import java.util.HashMap;
 
