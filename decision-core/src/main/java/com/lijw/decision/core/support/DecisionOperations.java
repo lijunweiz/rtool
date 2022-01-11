@@ -6,6 +6,9 @@ import com.lijw.decision.core.exception.CannotDecisionException;
 
 import java.util.List;
 
+/**
+ * 执行操作
+ */
 public interface DecisionOperations {
 
     void execute() throws CannotDecisionException;
