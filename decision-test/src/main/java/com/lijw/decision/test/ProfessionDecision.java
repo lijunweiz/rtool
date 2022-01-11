@@ -2,11 +2,12 @@ package com.lijw.decision.test;
 
 import com.lijw.decision.core.AbstractDecision;
 import com.lijw.decision.core.Context;
-import com.lijw.decision.core.DecideResult;
-import lombok.extern.java.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Log
 public class ProfessionDecision extends AbstractDecision {
+
+	private Logger logger = LoggerFactory.getLogger(ProfessionDecision.class);
 
 	@Override
 	public Boolean canDecide(Context context) {
@@ -15,7 +16,7 @@ public class ProfessionDecision extends AbstractDecision {
 
 	@Override
 	public void decide(Context context) {
-		log.info("获取决策数据项: profession");
+		logger.info("获取决策数据项: profession");
 
 		Profession item = context.getDecisionItem(Profession.class);
 
