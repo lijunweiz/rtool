@@ -30,12 +30,8 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         this.context = context;
         super.setDecisionFunctions(decisionFunctions);
         super.setDecisionFunctionMap(decisionFunctions.stream().collect(
-                Collectors.toMap(new Function<DecisionFunction, String>() {
-                    @Override
-                    public String apply(DecisionFunction decisionFunction) {
-                        return StringUtils.getCamelName(decisionFunction.getClass());
-                    }
-                }, Function.identity())));
+                Collectors.toMap(function -> StringUtils.isNullOrEmpty(function.getDecisionName())
+                        ? StringUtils.getCamelName(function.getClass()) : function.getDecisionName(), Function.identity())));
     }
 
     @Override
@@ -59,7 +55,9 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
                 if (function.canDecide(context)) {
                     function.decide(context);
                 } else {
-                    throw new CannotDecisionException("执行流被打断");
+                    logger.error("执行决策: {} 条件不满足, 执行流终止", StringUtils.isNullOrEmpty(function.getDecisionName())
+                            ? StringUtils.getCamelName(function.getClass()) : function.getDecisionName());
+                    throw new CannotDecisionException("条件不满足, 执行流终止");
                 }
             }
         }
