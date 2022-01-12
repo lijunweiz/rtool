@@ -70,4 +70,13 @@ public class StringUtils {
         return name;
     }
 
+    /**
+     * 判断字符是null还是empty
+     * @param str
+     * @return
+     */
+    public static boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
+
 }
