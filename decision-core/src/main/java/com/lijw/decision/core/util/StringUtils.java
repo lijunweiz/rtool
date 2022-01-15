@@ -9,6 +9,9 @@ public class StringUtils {
     /** 大写转为小写cache */
     private final static Map<Character, Character> UPPER_TO_LOWER = new HashMap<>();
 
+    /** 转换成功cache */
+    private final static Map<String, String> UPPER_TO_LOWER_CACHE = new HashMap<>();
+
     static {
         UPPER_TO_LOWER.put('A', 'a');
         UPPER_TO_LOWER.put('B', 'b');
@@ -51,7 +54,14 @@ public class StringUtils {
             return "null";
         }
 
-        return UPPER_TO_LOWER.get(clazz.getSimpleName().charAt(0)) + clazz.getSimpleName().substring(1);
+        if (UPPER_TO_LOWER_CACHE.containsKey(clazz.getSimpleName())) {
+            return UPPER_TO_LOWER_CACHE.get(clazz.getSimpleName());
+        }
+
+        String str = UPPER_TO_LOWER.get(clazz.getSimpleName().charAt(0)) + clazz.getSimpleName().substring(1);
+        UPPER_TO_LOWER_CACHE.put(clazz.getSimpleName(), str);
+
+        return str;
     }
 
     public static String getCamelName(String name) {
@@ -63,8 +73,14 @@ public class StringUtils {
             return EMPTY;
         }
 
+        if (UPPER_TO_LOWER_CACHE.containsKey(name)) {
+            return UPPER_TO_LOWER_CACHE.get(name);
+        }
+
         if (UPPER_TO_LOWER.containsKey(name.charAt(0))) {
-            return UPPER_TO_LOWER.get(name.charAt(0)) + name.substring(1);
+            String str = UPPER_TO_LOWER.get(name.charAt(0)) + name.substring(1);
+            UPPER_TO_LOWER_CACHE.put(name, str);
+            return str;
         }
 
         return name;
