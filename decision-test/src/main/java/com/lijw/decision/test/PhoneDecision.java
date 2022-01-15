@@ -17,13 +17,10 @@ public class PhoneDecision extends AbstractDecision {
 
     @Override
 	public void decide(Context context) {
-        logger.info("获取决策数据项: phone");
-
         Phone item = context.getDecisionItem(Phone.class);
+        logger.info("开始处理数据项: {}", item.getDecisionItemName());
 
-        context.getResult().setForceContinue(DefaultValue.FALSE);// 可以终端决策流
-        context.getResult().setPreviousPast(DefaultValue.FALSE);
-        context.getResult().setCurrentPass(DefaultValue.FALSE);
+        context.getResult().setForceContinue(DefaultValue.FALSE);// 当前条件不满足或者出现异常依然继续执行
 	}
 
 }

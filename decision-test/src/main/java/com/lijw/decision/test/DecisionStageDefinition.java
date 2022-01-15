@@ -8,8 +8,8 @@ import com.lijw.decision.core.DecisionStage;
 public enum DecisionStageDefinition implements DecisionStage {
 
     EDUCATION("0001", "教育", "education"),
-    PHONE("0002", "教育", "phone"),
-    PROFESSION("0003", "教育", "profession");
+    PHONE("0002", "电话号码", "phone"),
+    PROFESSION("0003", "职业", "profession");
 
     /** 执行阶段数字代码 */
     private String stageValue;

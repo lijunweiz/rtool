@@ -1,6 +1,7 @@
 package com.lijw.decision.test;
 
 
+import com.lijw.decision.core.AbstractDecisionItem;
 import com.lijw.decision.core.DecisionItem;
 
 import java.io.Serializable;
@@ -11,9 +12,20 @@ import java.util.Map;
  * @author MrLi takealeaf@yeah.net
  *
  */
-public class Education implements DecisionItem, Serializable {
-	
+public class Education extends AbstractDecisionItem implements Serializable {
+
+	private String degree;
+
 	private Map<String, Object> extensionData;
+
+	public String getDegree() {
+		return degree;
+	}
+
+	public Education setDegree(String degree) {
+		this.degree = degree;
+		return this;
+	}
 
 	/**
 	 * @return the extensionData
@@ -25,8 +37,9 @@ public class Education implements DecisionItem, Serializable {
 	/**
 	 * @param extensionData the extensionData to set
 	 */
-	public void setExtensionData(Map<String, Object> extensionData) {
+	public Education setExtensionData(Map<String, Object> extensionData) {
 		this.extensionData = extensionData;
+		return this;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.lijw.decision.test;
 
 import com.lijw.decision.core.AbstractDecision;
 import com.lijw.decision.core.Context;
+import com.lijw.decision.core.DefaultValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,14 +12,14 @@ public class ProfessionDecision extends AbstractDecision {
 
 	@Override
 	public Boolean canDecide(Context context) {
-		return super.canDecide(context);
+		return DefaultValue.TRUE;
 	}
 
 	@Override
 	public void decide(Context context) {
-		logger.info("获取决策数据项: profession");
-
 		Profession item = context.getDecisionItem(Profession.class);
+		logger.info("开始处理数据项: {}", item.getDecisionItemName());
+
 
 	}
 

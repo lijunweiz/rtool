@@ -9,8 +9,13 @@ import com.lijw.decision.test.DecisionStageDefinition;
 import com.lijw.decision.test.Education;
 import com.lijw.decision.test.Phone;
 import com.lijw.decision.test.Profession;
+import com.lijw.decision.test.decision.CreditDecisionType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -19,20 +24,26 @@ import java.util.HashMap;
  */
 public class DecisionTest {
 
+	static Logger logger = LoggerFactory.getLogger(DecisionTest.class);
+
 	public static void main(String[] args) throws DecisionException {
 		// 决策上下文
 		Context context = new Context();
 		context.setDecisionItem(new HashMap<>());
-		context.setDecisionItem(DecisionStageDefinition.EDUCATION.getStageNameEN(), new Education());
-		context.setDecisionItem(StringUtils.getCamelName(Phone.class), new Phone());
-		context.setDecisionItem(StringUtils.getCamelName(Profession.class), new Profession());
+		context.setDecisionItem(DecisionStageDefinition.EDUCATION.getStageNameEN(), new Education().setDegree("本科"));
+		context.setDecisionItem(StringUtils.getCamelName(Phone.class), new Phone().setPhoneNumber("123456"));
+		context.setDecisionItem(StringUtils.getCamelName(Profession.class), new Profession().setProfession("IT"));
+
+		context.setDecisionType(new CreditDecisionType());
 
 		DecisionTemplate decisionTemplate = new DecisionTemplate(context);
 
 		decisionTemplate.execute();
 
-		System.out.println(JSONObject.toJSONString(context));
-		System.out.println(JSONObject.toJSONString(decisionTemplate.getDecisionFunctionMap()));
+		String result = JSONObject.toJSONString(context.getResult());
+
+		logger.info("执行结果: {}", result);
+
 	}
 	
 }

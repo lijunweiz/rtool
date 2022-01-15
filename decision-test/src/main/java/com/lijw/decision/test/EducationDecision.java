@@ -23,8 +23,8 @@ public class EducationDecision extends AbstractDecision {
 
 	@Override
 	public void decide(Context context) {
-		logger.info("获取决策数据项: education");
 		Education item = context.getDecisionItem(Education.class);
+		logger.info("开始处理数据项: {}", item.getDecisionItemName());
 		Map<String, Object> data = new HashMap<>();
 		data.put("edu", "eduData");
 		context.getResult().setData(data);
