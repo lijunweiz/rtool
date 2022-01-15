@@ -10,14 +10,10 @@ import java.util.Objects;
  */
 public class Context {
 
-    /** 决策流id，贯穿一笔业务 */
-    private Long flowId;
-    /** 决策流中的决策项id，通常每个决策项均会生成一个 */
-    private Long spanId;
+    /** 决策类型 */
+    private DecisionType decisionType;
     /** 参与决策的数据k为决策项名称，v为决策数据 */
     private Map<String, DecisionItem> decisionItem;
-    /** 决策阶段，表示当前正在处理的数据项或正在执行的决策项 */
-    private DecisionStage stage;
     /** 决策状态，表示当前正在处理的数据项的处理状态 */
     private DecisionStatus status;
     /** 用户需要额外新增的其他数据 */
@@ -25,20 +21,12 @@ public class Context {
     /** 决策结果 */
     private DecideResult result = new DecideResult();
 
-    public Long getFlowId() {
-        return flowId;
+    public DecisionType getDecisionType() {
+        return decisionType;
     }
 
-    public void setFlowId(Long flowId) {
-        this.flowId = flowId;
-    }
-
-    public Long getSpanId() {
-        return spanId;
-    }
-
-    public void setSpanId(Long spanId) {
-        this.spanId = spanId;
+    public void setDecisionType(DecisionType decisionType) {
+        this.decisionType = decisionType;
     }
 
     public Map<String, DecisionItem> getDecisionItem() {
@@ -47,14 +35,6 @@ public class Context {
 
     public void setDecisionItem(Map<String, DecisionItem> decisionItem) {
         this.decisionItem = decisionItem;
-    }
-
-    public DecisionStage getStage() {
-        return stage;
-    }
-
-    public void setStage(DecisionStage stage) {
-        this.stage = stage;
     }
 
     public DecisionStatus getStatus() {
@@ -105,10 +85,7 @@ public class Context {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Context context = (Context) o;
-        return Objects.equals(flowId, context.flowId)
-                && Objects.equals(spanId, context.spanId)
-                && Objects.equals(decisionItem, context.decisionItem)
-                && Objects.equals(stage, context.stage)
+        return Objects.equals(decisionItem, context.decisionItem)
                 && status == context.status
                 && Objects.equals(otherData, context.otherData)
                 && Objects.equals(result, context.result);
@@ -116,16 +93,13 @@ public class Context {
 
     @Override
     public int hashCode() {
-        return Objects.hash(flowId, spanId, decisionItem, stage, status, otherData, result);
+        return Objects.hash(decisionItem, status, otherData, result);
     }
 
     @Override
     public String toString() {
         return "Context{" +
-                "flowId=" + flowId +
-                ", spanId=" + spanId +
-                ", decisionItem=" + decisionItem +
-                ", stage=" + stage +
+                "decisionItem=" + decisionItem +
                 ", status=" + status +
                 ", otherData=" + otherData +
                 ", result=" + result +

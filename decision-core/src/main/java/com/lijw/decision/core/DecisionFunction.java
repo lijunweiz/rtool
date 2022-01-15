@@ -1,5 +1,7 @@
 package com.lijw.decision.core;
 
+import com.lijw.decision.core.util.StringUtils;
+
 public interface DecisionFunction extends Decidable, Decision {
 
 	/**
@@ -7,7 +9,7 @@ public interface DecisionFunction extends Decidable, Decision {
 	 * @return
 	 */
 	default String getDecisionName() {
-		return null;
+		return StringUtils.getCamelName(getClass());
 	}
 
 }
