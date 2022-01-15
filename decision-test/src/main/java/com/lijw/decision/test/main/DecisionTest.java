@@ -2,7 +2,7 @@ package com.lijw.decision.test.main;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lijw.decision.core.Context;
-import com.lijw.decision.core.exception.CannotDecisionException;
+import com.lijw.decision.core.exception.DecisionException;
 import com.lijw.decision.core.support.DecisionTemplate;
 import com.lijw.decision.core.util.StringUtils;
 import com.lijw.decision.test.DecisionStageDefinition;
@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class DecisionTest {
 
-	public static void main(String[] args) throws CannotDecisionException {
+	public static void main(String[] args) throws DecisionException {
 		// 决策上下文
 		Context context = new Context();
 		context.setDecisionItem(new HashMap<>());

@@ -2,7 +2,7 @@ package com.lijw.decision.core.support;
 
 import com.lijw.decision.core.Context;
 import com.lijw.decision.core.DecisionFunction;
-import com.lijw.decision.core.exception.CannotDecisionException;
+import com.lijw.decision.core.exception.DecisionException;
 import com.lijw.decision.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,21 +35,21 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
     }
 
     @Override
-    public void execute() throws CannotDecisionException {
+    public void execute() throws DecisionException {
         execute(this.context);
     }
 
     @Override
-    public void execute(Context context) throws CannotDecisionException {
+    public void execute(Context context) throws DecisionException {
         execute(context, getDecisionFunctions());
     }
 
     @Override
-    public void execute(Context context, List<DecisionFunction> decisionFunctions) throws CannotDecisionException {
+    public void execute(Context context, List<DecisionFunction> decisionFunctions) throws DecisionException {
         executeDecide(context, decisionFunctions, true);
     }
 
-    protected void executeDecide(Context context, List<DecisionFunction> decisionFunctions, boolean order) throws CannotDecisionException {
+    protected void executeDecide(Context context, List<DecisionFunction> decisionFunctions, boolean order) throws DecisionException {
         if (order) {
             for (DecisionFunction function: decisionFunctions) {
                 if (function.canDecide(context)) {
@@ -57,7 +57,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
                 } else {
                     logger.error("执行决策: {} 条件不满足, 执行流终止", StringUtils.isNullOrEmpty(function.getDecisionName())
                             ? StringUtils.getCamelName(function.getClass()) : function.getDecisionName());
-                    throw new CannotDecisionException("条件不满足, 执行流终止");
+                    throw new DecisionException("条件不满足, 执行流终止");
                 }
             }
         }
