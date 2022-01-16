@@ -1,5 +1,6 @@
 package com.lijw.decision.core;
 
+import com.lijw.decision.core.product.Product;
 import com.lijw.decision.core.util.StringUtils;
 
 import java.util.Map;
@@ -12,6 +13,8 @@ public class Context {
 
     /** 决策类型 */
     private DecisionType decisionType;
+    /** 决策产品 */
+    private String productName;
     /** 参与决策的数据k为决策项名称，v为决策数据 */
     private Map<String, DecisionItem> decisionItem;
     /** 决策状态，表示当前正在处理的数据项的处理状态 */
@@ -27,6 +30,14 @@ public class Context {
 
     public void setDecisionType(DecisionType decisionType) {
         this.decisionType = decisionType;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public Map<String, DecisionItem> getDecisionItem() {

@@ -87,12 +87,12 @@ public class StringUtils {
     }
 
     /**
-     * 判断字符是null还是empty
+     * 判断字符是null或者是empty
      * @param str
      * @return
      */
     public static boolean isNullOrEmpty(String str) {
-        return str == null || str.trim().isEmpty();
+        return Objects.isNull(str) || str.trim().isEmpty();
     }
 
 }

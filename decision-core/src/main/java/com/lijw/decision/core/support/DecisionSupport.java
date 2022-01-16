@@ -2,6 +2,7 @@ package com.lijw.decision.core.support;
 
 import com.lijw.decision.core.DecisionFunction;
 import com.lijw.decision.core.DecisionType;
+import com.lijw.decision.core.product.Product;
 import com.lijw.decision.core.util.IOUtils;
 import com.lijw.decision.core.util.StringUtils;
 import org.slf4j.Logger;
@@ -21,6 +22,8 @@ public abstract class DecisionSupport {
     private Map<String, DecisionFunction> decisionFunctionMap = new HashMap<>();
     /** 决策项list */
     private List<DecisionFunction> decisionFunctions = new ArrayList<>();
+    /** 产品 */
+    private List<Product> products = new ArrayList<>();
     /** 配置系统属性名称，指定配置文件所在位置 */
     private static final String DECISION_CONFIG = "DECISION_CONFIG";
     /** 配置文件默认所在位置 */
@@ -34,6 +37,7 @@ public abstract class DecisionSupport {
         initConfig();
         initDecisionFunction();
         initDecisionType();
+        initProduct();
     }
 
     public List<DecisionType> getDecisionTypes() {
@@ -46,6 +50,10 @@ public abstract class DecisionSupport {
 
     public Map<String, DecisionFunction> getDecisionFunctionMap() {
         return decisionFunctionMap;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 
     public Properties getProperties() {
@@ -91,6 +99,11 @@ public abstract class DecisionSupport {
     protected void initDecisionType() {
         initLoaderService(DecisionType.class, decisionTypes);
         initConfigService(DecisionType.class, decisionTypes);
+    }
+
+    protected void initProduct() {
+        initLoaderService(Product.class, products);
+        initConfigService(Product.class, products);
     }
 
     /**
