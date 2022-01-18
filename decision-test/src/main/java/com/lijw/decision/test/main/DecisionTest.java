@@ -10,12 +10,11 @@ import com.lijw.decision.test.Education;
 import com.lijw.decision.test.Phone;
 import com.lijw.decision.test.Profession;
 import com.lijw.decision.test.decision.CreditDecisionType;
+import com.lijw.decision.test.product.AliJieBei;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 /**
@@ -36,9 +35,11 @@ public class DecisionTest {
 
 		context.setDecisionType(new CreditDecisionType());
 
-		DecisionTemplate decisionTemplate = new DecisionTemplate(context);
+		context.setProductName(StringUtils.getCamelName(AliJieBei.class));
 
-		decisionTemplate.execute();
+		DecisionTemplate decisionTemplate = new DecisionTemplate();
+
+		decisionTemplate.execute(context);
 
 		String result = JSONObject.toJSONString(context.getResult());
 

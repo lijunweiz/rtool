@@ -1,4 +1,4 @@
-package com.lijw.decision.test;
+package com.lijw.decision.test.decision;
 
 public enum DecisionTypeEnum {
 
