@@ -26,7 +26,7 @@ public final class IOUtils {
     }
 
     private static void closeable(Closeable closeable) {
-        if (Objects.isNull(closeable)) {
+        if (Objects.nonNull(closeable)) {
             try {
                 closeable.close();
             } catch (IOException e) {

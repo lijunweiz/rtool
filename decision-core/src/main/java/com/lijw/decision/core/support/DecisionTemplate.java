@@ -16,16 +16,8 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
 
     private Logger logger = LoggerFactory.getLogger(DecisionTemplate.class);
 
-    private Context context;
-
-    public DecisionTemplate(Context context) {
+    public DecisionTemplate() {
         super();
-        this.context = context;
-    }
-
-    @Override
-    public void execute() throws DecisionException {
-        execute(this.context);
     }
 
     @Override

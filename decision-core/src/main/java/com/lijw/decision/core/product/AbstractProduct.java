@@ -4,7 +4,6 @@ import com.lijw.decision.core.util.StringUtils;
 
 /**
  * 简单实现，可以对产品做一些预定义
- * @param <T>
  */
 public abstract class AbstractProduct implements Product {
 

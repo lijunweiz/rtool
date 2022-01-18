@@ -11,8 +11,6 @@ import java.util.List;
  */
 public interface DecisionOperations {
 
-    void execute() throws DecisionException;
-
     void execute(Context context) throws DecisionException;
 
     void execute(Context context, List<DecisionFunction> decisionFlow) throws DecisionException;

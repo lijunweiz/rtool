@@ -8,7 +8,6 @@ import com.lijw.decision.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -70,11 +69,17 @@ public abstract class DecisionSupport {
             current = config;
             logger.info("探测到系统属性: {}, 使用配置文件: {}", DECISION_CONFIG, config);
         }
-        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(current);
+
+        InputStream is = null;
         try {
-            properties.load(is);
-            logger.info("配置文件: {} 加载成功", current);
-        } catch (IOException e) {
+            is = Thread.currentThread().getContextClassLoader().getResourceAsStream(current);
+            if (Objects.nonNull(is)) {
+                properties.load(is);
+                logger.info("配置文件: {} 加载成功", current);
+            } else {
+                logger.info("加载配置文件: {}失败", current);
+            }
+        } catch (Exception e) {
             logger.error("配置文件加载失败", e);
         } finally {
             IOUtils.close(is);
