@@ -26,7 +26,7 @@ public abstract class DecisionSupport {
     /** 配置系统属性名称，指定配置文件所在位置 */
     private static final String DECISION_CONFIG = "DECISION_CONFIG";
     /** 配置文件默认所在位置 */
-    private static final String defaultLocation = "./decision.properties";
+    private static final String DEFAULT_LOCATION = "./decision.properties";
     /** 配置属性value分隔符 */
     private static final String SEPARATOR = ",";
     /** 解析完成的配置属性 */
@@ -60,14 +60,13 @@ public abstract class DecisionSupport {
     }
 
     private void initConfig() {
-        String current = "";
+        String current = DEFAULT_LOCATION;
         String config = System.getProperty(DECISION_CONFIG);
         if (StringUtils.isNullOrEmpty(config)) {
-            current = defaultLocation;
-            logger.info("未探测到系统属性: {}, 使用默认配置文件: {}", DECISION_CONFIG, defaultLocation);
+            logger.info("未探测到系统属性: {}, 使用默认配置文件: {}", DECISION_CONFIG, current);
         } else {
             current = config;
-            logger.info("探测到系统属性: {}, 使用配置文件: {}", DECISION_CONFIG, config);
+            logger.info("探测到系统属性: {}, 使用配置文件: {}", DECISION_CONFIG, current);
         }
 
         InputStream is = null;
@@ -77,7 +76,7 @@ public abstract class DecisionSupport {
                 properties.load(is);
                 logger.info("配置文件: {} 加载成功", current);
             } else {
-                logger.info("加载配置文件: {}失败", current);
+                logger.warn("配置文件: {} 加载失败", current);
             }
         } catch (Exception e) {
             logger.error("配置文件加载失败", e);
@@ -93,8 +92,8 @@ public abstract class DecisionSupport {
     protected void initDecisionFunction() {
         initLoaderService(DecisionFunction.class, decisionFunctions);
         initConfigService(DecisionFunction.class, decisionFunctions);
-        decisionFunctions.forEach(x -> {
-            decisionFunctionMap.put(StringUtils.getCamelName(x.getClass()), x);
+        decisionFunctions.forEach(function -> {
+            decisionFunctionMap.put(function.getDecisionName(), function);
         });
     }
 
@@ -118,6 +117,9 @@ public abstract class DecisionSupport {
      * @param <T>
      */
     private <T> void initLoaderService(Class<?> clazz, List<T> list) {
+        if (Objects.isNull(clazz) || Objects.isNull(list)) {
+            return;
+        }
         ServiceLoader<T> serviceLoader = (ServiceLoader<T>) ServiceLoader.load(clazz);
         Iterator<T> iterator = serviceLoader.iterator();
         while (iterator.hasNext()) {
@@ -133,6 +135,9 @@ public abstract class DecisionSupport {
      * @param <T>
      */
     private <T> void initConfigService(Class<?> clazz, List<T> list) {
+        if (Objects.isNull(clazz) || Objects.isNull(list)) {
+            return;
+        }
         if (properties.containsKey(clazz.getName())) {
             String property = properties.getProperty(clazz.getName());
             if (StringUtils.isNullOrEmpty(property)) {
@@ -144,7 +149,9 @@ public abstract class DecisionSupport {
                 try {
                     T o = (T) Class.forName(className).newInstance();
                     boolean anyMatch = list.stream().anyMatch(x -> x.getClass().equals(o.getClass()));
-                    if (!anyMatch) {
+                    if (anyMatch) {
+                        logger.warn("忽略重复定义bean: {}", o.getClass().getName());
+                    } else {
                         list.add(o);
                     }
                 } catch (Exception e) {

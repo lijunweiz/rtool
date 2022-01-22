@@ -34,19 +34,19 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         // 1 确认请求
         context.setStatus(DecisionStatus.CONFIRM);
 
-        // 2 决策类型探测，且条件预判断
+        // 1.1 决策类型探测，且条件预判断
         DecisionType decisionType = decisionTypeProcess(context);
         if (logger.isDebugEnabled()) {
             logger.debug("当前决策类型详情: {}", decisionType);
         }
 
-        // 3 产品类型探测, 且条件预判断
+        // 1.2 产品类型探测, 且条件预判断
         Product product = productTypeProcess(context);
         if (logger.isDebugEnabled()) {
             logger.debug("当前产品类型详情: {}", product);
         }
 
-        // 4 决策处理中
+        // 2 决策处理中
         context.setStatus(DecisionStatus.PROCESSING);
         for (DecisionFunction function: decisionFunctions) {
             try {
@@ -55,14 +55,14 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
                 }
             } catch (Exception e) {
                 if (context.getResult().getForceContinue()) {
-                    logger.warn("执行决策: {} 失败, 强制执行剩余决策", StringUtils.getCamelName(function.getClass()));
+                    logger.warn("执行决策: {} 失败, 强制执行剩余决策", function.getDecisionName());
                 } else {
                     throw new DecisionException("决策条件不满足, 执行流终止", e);
                 }
             }
         }
 
-        // 5 决策流处理完成
+        // 3 决策流处理完成
         context.setStatus(DecisionStatus.FINISHED);
     }
 
@@ -89,7 +89,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         if (process) {
             logger.info("决策类型: {}, 预判定成功", decisionTypeName);
         } else {
-            throw new DecisionException();
+            throw new DecisionException(String.format("决策类型: %s, 预判定失败", decisionTypeName));
         }
 
         return decisionType;
@@ -117,7 +117,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         if (process) {
             logger.info("产品类型: {} 处理成功", productName);
         } else {
-            throw new DecisionException();
+            throw new DecisionException(String.format("产品类型: %s 处理失败", productName));
         }
 
         return product;
