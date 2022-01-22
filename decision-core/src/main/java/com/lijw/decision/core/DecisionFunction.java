@@ -1,15 +1,18 @@
 package com.lijw.decision.core;
 
-import com.lijw.decision.core.util.StringUtils;
-
 public interface DecisionFunction extends Decidable, Decision {
 
 	/**
-	 * 决策名称，表示当前的决策数据所用是哪个决策，实现类可按需定义，对于主流程不是必须的
+	 * 执行顺序
 	 * @return
 	 */
-	default String getDecisionName() {
-		return StringUtils.getCamelName(getClass());
-	}
+	int order();
+
+	/**
+	 * 每一个实现类，应该在此处关系需要进行判定的数据，并给出决策结果
+	 * @param context
+	 * @return
+	 */
+	void decide(Context context);
 
 }

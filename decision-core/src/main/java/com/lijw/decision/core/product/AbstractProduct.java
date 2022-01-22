@@ -17,7 +17,7 @@ public abstract class AbstractProduct implements Product {
     }
 
     @Override
-    public String getProductName() {
+    public String getName() {
         return productName;
     }
 

@@ -25,7 +25,17 @@ public abstract class AbstractDecision implements DecisionFunction {
      * @return
      */
     @Override
-    public String getDecisionName() {
+    public String getName() {
         return decisionName;
     }
+
+    /**
+     * 决策函数执行顺序
+     * @return
+     */
+    @Override
+    public int order() {
+        return Integer.MIN_VALUE;
+    }
+
 }

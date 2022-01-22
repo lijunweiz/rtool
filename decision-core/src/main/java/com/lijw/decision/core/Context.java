@@ -1,6 +1,5 @@
 package com.lijw.decision.core;
 
-import com.lijw.decision.core.product.Product;
 import com.lijw.decision.core.util.StringUtils;
 
 import java.util.Map;

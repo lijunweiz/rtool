@@ -12,7 +12,7 @@ public abstract class AbstractDecisionItem implements DecisionItem {
     }
 
     @Override
-    public String getDecisionItemName() {
+    public String getName() {
         return decisionItemName;
     }
 

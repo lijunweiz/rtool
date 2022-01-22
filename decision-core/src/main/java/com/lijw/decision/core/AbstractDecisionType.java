@@ -12,12 +12,8 @@ public abstract class AbstractDecisionType implements DecisionType {
     }
 
     @Override
-    public String getDecisionTypeName() {
+    public String getName() {
         return decisionTypeName;
     }
 
-    @Override
-    public boolean process() {
-        return DefaultValue.TRUE.booleanValue();
-    }
 }

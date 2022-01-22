@@ -10,9 +10,6 @@ import java.util.Objects;
  */
 public class DecideResult implements Serializable {
 
-    /** 当前决策项 */
-    private DecisionStage decisionStage;
-
     /** 当前决策项不通过或者出现异常时，是否强制继续执行下一个决策项 */
     private Boolean forceContinue = DefaultValue.TRUE;
 
@@ -27,14 +24,6 @@ public class DecideResult implements Serializable {
 
     /** 返回给客户端的决策结果数据 */
     private Map<String, Object> data = new HashMap<>();
-
-    public DecisionStage getDecisionStage() {
-        return decisionStage;
-    }
-
-    public void setDecisionStage(DecisionStage decisionStage) {
-        this.decisionStage = decisionStage;
-    }
 
     public Boolean getForceContinue() {
         return forceContinue;
@@ -81,8 +70,7 @@ public class DecideResult implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DecideResult result = (DecideResult) o;
-        return Objects.equals(decisionStage, result.decisionStage)
-                && Objects.equals(forceContinue, result.forceContinue)
+        return Objects.equals(forceContinue, result.forceContinue)
                 && Objects.equals(pass, result.pass)
                 && Objects.equals(msg, result.msg)
                 && Objects.equals(code, result.code)
@@ -91,14 +79,13 @@ public class DecideResult implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(decisionStage, forceContinue, pass, msg, code, data);
+        return Objects.hash(forceContinue, pass, msg, code, data);
     }
 
     @Override
     public String toString() {
         return "DecideResult{" +
-                "decisionStage=" + decisionStage +
-                ", forceContinue=" + forceContinue +
+                "forceContinue=" + forceContinue +
                 ", pass=" + pass +
                 ", msg='" + msg + '\'' +
                 ", code=" + code +

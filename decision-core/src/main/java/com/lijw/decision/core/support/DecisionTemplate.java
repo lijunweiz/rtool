@@ -55,7 +55,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
                 }
             } catch (Exception e) {
                 if (context.getResult().getForceContinue()) {
-                    logger.warn("执行决策: {} 失败, 强制执行剩余决策", function.getDecisionName());
+                    logger.warn("执行决策: {} 失败, 强制执行剩余决策", function.getName());
                 } else {
                     throw new DecisionException("决策条件不满足, 执行流终止", e);
                 }
@@ -73,13 +73,13 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
      * @throws DecisionException
      */
     private DecisionType decisionTypeProcess(Context context) throws DecisionException {
-        String decisionTypeName = context.getDecisionType().getDecisionTypeName();
+        String decisionTypeName = context.getDecisionType().getName();
         if (StringUtils.isNullOrEmpty(decisionTypeName)) {
             throw new DecisionException("决策类型名称不能为空");
         }
         DecisionType decisionType = this.getDecisionTypes()
                 .stream()
-                .filter(x -> x.getDecisionTypeName().equalsIgnoreCase(decisionTypeName))
+                .filter(x -> x.getName().equalsIgnoreCase(decisionTypeName))
                 .findFirst()
                 .orElseThrow(() -> new DecisionException("未匹配到决策类型: " + decisionTypeName));
 
@@ -107,7 +107,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         }
         Product product = getProducts()
                 .stream()
-                .filter(x -> x.getProductName().equalsIgnoreCase(productName))
+                .filter(x -> x.getName().equalsIgnoreCase(productName))
                 .findFirst()
                 .orElseThrow(() -> new DecisionException("未匹配到产品: " + productName));
 

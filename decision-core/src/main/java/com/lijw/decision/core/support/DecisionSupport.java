@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class DecisionSupport {
 
@@ -17,8 +18,6 @@ public abstract class DecisionSupport {
 
     /** 决策类型 */
     private List<DecisionType> decisionTypes = new ArrayList<>();
-    /** 决策项map */
-    private Map<String, DecisionFunction> decisionFunctionMap = new HashMap<>();
     /** 决策项list */
     private List<DecisionFunction> decisionFunctions = new ArrayList<>();
     /** 产品 */
@@ -45,10 +44,6 @@ public abstract class DecisionSupport {
 
     public List<DecisionFunction> getDecisionFunctions() {
         return decisionFunctions;
-    }
-
-    public Map<String, DecisionFunction> getDecisionFunctionMap() {
-        return decisionFunctionMap;
     }
 
     public List<Product> getProducts() {
@@ -92,9 +87,11 @@ public abstract class DecisionSupport {
     protected void initDecisionFunction() {
         initLoaderService(DecisionFunction.class, decisionFunctions);
         initConfigService(DecisionFunction.class, decisionFunctions);
-        decisionFunctions.forEach(function -> {
-            decisionFunctionMap.put(function.getDecisionName(), function);
-        });
+        List<DecisionFunction> collect = decisionFunctions
+                .stream()
+                .sorted(Comparator.comparing(DecisionFunction::order))
+                .collect(Collectors.toList());
+        decisionFunctions = collect;
     }
 
     /**
@@ -147,7 +144,7 @@ public abstract class DecisionSupport {
 
             for (String className : property.split(SEPARATOR)) {
                 try {
-                    T o = (T) Class.forName(className).newInstance();
+                    T o = (T) Class.forName(className).asSubclass(clazz).newInstance();
                     boolean anyMatch = list.stream().anyMatch(x -> x.getClass().equals(o.getClass()));
                     if (anyMatch) {
                         logger.warn("忽略重复定义bean: {}", o.getClass().getName());
