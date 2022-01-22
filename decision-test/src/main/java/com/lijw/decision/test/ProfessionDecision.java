@@ -18,9 +18,14 @@ public class ProfessionDecision extends AbstractDecision {
 	@Override
 	public void decide(Context context) {
 		Profession item = context.getDecisionItem(Profession.class);
-		logger.info("开始处理数据项: {}", item.getDecisionItemName());
+		logger.info("开始处理数据项: {}", item.getName());
 
 
+	}
+
+	@Override
+	public int order() {
+		return -1;
 	}
 
 }

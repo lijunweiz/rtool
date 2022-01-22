@@ -1,10 +1,14 @@
 package com.lijw.decision.test.decision;
 
+import com.lijw.decision.core.util.StringUtils;
+
+import java.util.Optional;
+
 public enum DecisionTypeEnum {
 
     CREDIT(1, "credit", "授信"),
-    WITHDRAW(1, "withdraw", "提现"),
-    INCREASE_QUOTA(1, "increaseQuota", "提额");
+    WITHDRAW(2, "withdraw", "提现"),
+    INCREASE_QUOTA(3, "increaseQuota", "提额");
 
     private Integer value;
     private String valueEN;
@@ -27,4 +31,19 @@ public enum DecisionTypeEnum {
     public String getValueCN() {
         return valueCN;
     }
+
+    public Optional<DecisionTypeEnum> getDecisionType(String name) {
+        if (StringUtils.isNullOrEmpty(name)) {
+            return Optional.empty();
+        }
+
+        for (DecisionTypeEnum typeEnum : values()) {
+            if (typeEnum.getValueEN().equalsIgnoreCase(name)) {
+                return Optional.of(typeEnum);
+            }
+        }
+
+        return Optional.empty();
+    }
+
 }

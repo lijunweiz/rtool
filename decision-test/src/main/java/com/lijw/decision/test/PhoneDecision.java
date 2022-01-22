@@ -18,9 +18,13 @@ public class PhoneDecision extends AbstractDecision {
     @Override
 	public void decide(Context context) {
         Phone item = context.getDecisionItem(Phone.class);
-        logger.info("开始处理数据项: {}", item.getDecisionItemName());
+        logger.info("开始处理数据项: {}", item.getName());
 
-        context.getResult().setForceContinue(DefaultValue.FALSE);// 当前条件不满足或者出现异常依然继续执行
+
 	}
 
+    @Override
+    public int order() {
+        return 3;
+    }
 }
