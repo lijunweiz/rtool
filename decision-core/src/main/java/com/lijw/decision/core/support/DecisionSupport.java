@@ -3,6 +3,7 @@ package com.lijw.decision.core.support;
 import com.lijw.decision.core.DecisionFunction;
 import com.lijw.decision.core.DecisionType;
 import com.lijw.decision.core.product.Product;
+import com.lijw.decision.core.util.CollectionUtil;
 import com.lijw.decision.core.util.IOUtils;
 import com.lijw.decision.core.util.StringUtils;
 import org.slf4j.Logger;
@@ -49,6 +50,19 @@ public abstract class DecisionSupport {
         return decisionFunctions;
     }
 
+    /**
+     * 排序从小到大
+     * @param decisionFunctions
+     * @return
+     */
+    protected List<DecisionFunction> getDecisionFunctions(List<DecisionFunction> decisionFunctions) {
+        if (CollectionUtil.isNullOrEmpty(decisionFunctions)) {
+            return decisionFunctions;
+        }
+
+        return decisionFunctions.stream().sorted(Comparator.comparing(DecisionFunction::order)).collect(Collectors.toList());
+    }
+
     public List<Product> getProducts() {
         return products;
     }
@@ -90,11 +104,7 @@ public abstract class DecisionSupport {
     protected void initDecisionFunction() {
         initLoaderService(DecisionFunction.class, decisionFunctions);
         initConfigService(DecisionFunction.class, decisionFunctions);
-        List<DecisionFunction> collect = decisionFunctions
-                .stream()
-                .sorted(Comparator.comparing(DecisionFunction::order))
-                .collect(Collectors.toList());
-        decisionFunctions = collect;
+        decisionFunctions = getDecisionFunctions(decisionFunctions);
     }
 
     /**

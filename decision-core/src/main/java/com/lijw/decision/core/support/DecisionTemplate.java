@@ -1,16 +1,15 @@
 package com.lijw.decision.core.support;
 
-import com.lijw.decision.core.Context;
-import com.lijw.decision.core.DecisionFunction;
-import com.lijw.decision.core.DecisionStatus;
-import com.lijw.decision.core.DecisionType;
+import com.lijw.decision.core.*;
 import com.lijw.decision.core.exception.DecisionException;
 import com.lijw.decision.core.product.Product;
+import com.lijw.decision.core.util.CollectionUtil;
 import com.lijw.decision.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 决策模板，一些简单易用的决策方法
@@ -25,12 +24,23 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
 
     @Override
     public void execute(Context context) throws DecisionException {
-        execute(context, getDecisionFunctions());
+        execute(context, getDecisionFunctions(), DefaultValue.TRUE.booleanValue());
     }
 
     @Override
-    public void execute(Context context, List<DecisionFunction> decisionFunctions) throws DecisionException {
-        executeDecide(context, decisionFunctions);
+    public void execute(Context context, List<DecisionFunction> decisionFunctions, boolean transfer) throws DecisionException {
+        if (Objects.isNull(context)) {
+            throw new IllegalArgumentException("context不能为null");
+        }
+        if (CollectionUtil.isNullOrEmpty(decisionFunctions)) {
+            throw new IllegalArgumentException("decisionFunctions不能为null或者空");
+        }
+
+        if (transfer) {
+            executeDecide(context, decisionFunctions);
+        } else {
+            executeDecide(context, getDecisionFunctions(decisionFunctions));
+        }
     }
 
     protected void executeDecide(Context context, List<DecisionFunction> decisionFunctions) throws DecisionException {

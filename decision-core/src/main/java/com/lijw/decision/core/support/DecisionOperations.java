@@ -13,6 +13,6 @@ public interface DecisionOperations {
 
     void execute(Context context) throws DecisionException;
 
-    void execute(Context context, List<DecisionFunction> decisionFlow) throws DecisionException;
+    void execute(Context context, List<DecisionFunction> decisionFlow, boolean transfer) throws DecisionException;
 
 }
