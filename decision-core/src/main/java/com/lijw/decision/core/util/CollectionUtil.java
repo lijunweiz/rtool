@@ -19,7 +19,7 @@ public final class CollectionUtil {
         return Objects.isNull(collection) || collection.isEmpty();
     }
 
-    public static <T> boolean isNullOrEmpty(Map<?, ?> map) {
+    public static boolean isNullOrEmpty(Map<?, ?> map) {
         return Objects.isNull(map) || map.isEmpty();
     }
 
