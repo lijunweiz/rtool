@@ -12,6 +12,9 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 决策支持，完成决策执行时的一些基础配置
+ */
 public abstract class DecisionSupport {
 
     private Logger logger = LoggerFactory.getLogger(DecisionSupport.class);

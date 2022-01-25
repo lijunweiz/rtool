@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * 决策模板，一些简单易用的决策方法
+ */
 public class DecisionTemplate extends DecisionSupport implements DecisionOperations {
 
     private Logger logger = LoggerFactory.getLogger(DecisionTemplate.class);
@@ -55,7 +58,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
                 }
             } catch (Exception e) {
                 if (context.getResult().getForceContinue()) {
-                    logger.warn("执行决策: {} 失败, 强制执行剩余决策", function.getName());
+                    logger.warn("执行决策: {} 失败, 继续执行剩余决策", function.getName());
                 } else {
                     throw new DecisionException("决策条件不满足, 执行流终止", e);
                 }
@@ -89,7 +92,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         if (process) {
             logger.info("决策类型: {}, 预判定成功", decisionTypeName);
         } else {
-            throw new DecisionException(String.format("决策类型: %s, 预判定失败", decisionTypeName));
+            throw new DecisionException("决策类型: " + decisionTypeName + ", 预判定失败");
         }
 
         return decisionType;
@@ -117,7 +120,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         if (process) {
             logger.info("产品类型: {} 处理成功", productName);
         } else {
-            throw new DecisionException(String.format("产品类型: %s 处理失败", productName));
+            throw new DecisionException("产品类型: "+ productName + " 处理失败");
         }
 
         return product;
