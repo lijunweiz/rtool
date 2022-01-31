@@ -9,6 +9,7 @@ import com.lijw.decision.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -75,10 +76,14 @@ public abstract class DecisionSupport {
         String current = DEFAULT_LOCATION;
         String config = System.getProperty(DECISION_CONFIG);
         if (StringUtils.isNullOrEmpty(config)) {
-            logger.info("未探测到系统属性: {}, 使用默认配置文件: {}", DECISION_CONFIG, current);
+            logger.debug("未探测到系统属性: {}, 使用默认配置文件: {}", DECISION_CONFIG, current);
         } else {
             current = config;
-            logger.info("探测到系统属性: {}, 使用配置文件: {}", DECISION_CONFIG, current);
+            logger.debug("探测到系统属性: {}, 使用配置文件: {}", DECISION_CONFIG, current);
+        }
+        File file = new File(current);
+        if (!file.isFile()) {
+            return;
         }
 
         InputStream is = null;
@@ -86,7 +91,7 @@ public abstract class DecisionSupport {
             is = Thread.currentThread().getContextClassLoader().getResourceAsStream(current);
             if (Objects.nonNull(is)) {
                 properties.load(is);
-                logger.info("配置文件: {} 加载成功", current);
+                logger.debug("配置文件: {} 加载成功", current);
             } else {
                 logger.warn("配置文件: {} 加载失败", current);
             }
