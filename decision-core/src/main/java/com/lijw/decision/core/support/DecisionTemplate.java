@@ -110,7 +110,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
 
     /**
      * 产品类型探测，且决策产品条件预判断
-     * @param context
+     * @param context 决策上下文
      * @return 产品
      */
     private Product productTypeProcess(Context context) throws DecisionException {
@@ -126,7 +126,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
 
         logger.info("探测到产品类型: {}", productName);
 
-        boolean process = product.process();
+        boolean process = product.process(context);
         if (process) {
             logger.info("产品类型: {} 处理成功", productName);
         } else {

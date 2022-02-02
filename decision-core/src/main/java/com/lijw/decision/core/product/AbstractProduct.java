@@ -1,5 +1,6 @@
 package com.lijw.decision.core.product;
 
+import com.lijw.decision.core.Context;
 import com.lijw.decision.core.util.StringUtils;
 
 /**
@@ -22,7 +23,7 @@ public abstract class AbstractProduct implements Product {
     }
 
     @Override
-    public boolean process() {
+    public boolean process(Context context) {
         return true;
     }
 
