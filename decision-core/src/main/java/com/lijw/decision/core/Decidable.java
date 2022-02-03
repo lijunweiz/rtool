@@ -11,6 +11,6 @@ public interface Decidable {
 	 * @param context
 	 * @return
 	 */
-	Boolean canDecide(Context context);
+	boolean canDecide(Context context);
 
 }

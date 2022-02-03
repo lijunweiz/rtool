@@ -30,7 +30,7 @@ public abstract class DecisionSupport {
     /** 配置系统属性名称，指定配置文件所在位置 */
     private static final String DECISION_CONFIG = "DECISION_CONFIG";
     /** 配置文件默认所在位置 */
-    private static final String DEFAULT_LOCATION = "./decision.properties";
+    private static final String DEFAULT_LOCATION = "/decision.properties";
     /** 配置属性value分隔符 */
     private static final String SEPARATOR = ",";
     /** 解析完成的配置属性 */
@@ -81,14 +81,17 @@ public abstract class DecisionSupport {
             current = config;
             logger.debug("探测到系统属性: {}, 使用配置文件: {}", DECISION_CONFIG, current);
         }
-        File file = new File(current);
+
+        // 获取classpath下的文件绝对路径, 进行文件判断
+        String path = getClass().getResource(current).getPath();
+        File file = new File(path);
         if (!file.isFile()) {
             return;
         }
 
         InputStream is = null;
         try {
-            is = Thread.currentThread().getContextClassLoader().getResourceAsStream(current);
+            is = Thread.currentThread().getContextClassLoader().getResourceAsStream(file.getName());
             if (Objects.nonNull(is)) {
                 properties.load(is);
                 logger.debug("配置文件: {} 加载成功", current);

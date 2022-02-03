@@ -16,7 +16,7 @@ public abstract class AbstractDecision implements DecisionFunction {
     }
 
     @Override
-    public Boolean canDecide(Context context) {
+    public boolean canDecide(Context context) {
         return DefaultValue.TRUE;
     }
 

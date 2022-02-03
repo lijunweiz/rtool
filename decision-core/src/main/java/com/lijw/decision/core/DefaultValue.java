@@ -9,8 +9,8 @@ public final class DefaultValue {
         throw new IllegalAccessException();
     }
 
-    public static final Boolean TRUE = Boolean.TRUE;
-    public static final Boolean FALSE = Boolean.FALSE;
+    public static final boolean TRUE = true;
+    public static final boolean FALSE = false;
     public static final Integer INT_200 = 200;
     public static final String MSG_FAIL = "处理失败";
     public static final String MSG_SUCCESS = "处理成功";

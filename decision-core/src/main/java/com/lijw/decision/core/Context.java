@@ -72,13 +72,24 @@ public class Context {
     }
 
     /**
-     * 返回指定类型的决策项
-     * @param clazz
+     * 返回指定名称及类型的决策项
      * @param <T>
      * @return
      */
-    public <T> T getDecisionItem(Class<? extends DecisionItem> clazz) {
-        return (T) getDecisionItem().get(StringUtils.getCamelName(clazz));
+    public <T> T getDecisionItem(String decisionItemName, Class<T> clazz) {
+        if (Objects.isNull(clazz)) {
+            throw new IllegalArgumentException("参数clazz不能为null");
+        } else {
+            return (T) getDecisionItem(decisionItemName);
+        }
+    }
+
+    /**
+     * 返回指定名称的决策项
+     * @return
+     */
+    public DecisionItem getDecisionItem(String decisionItemName) {
+        return getDecisionItem().get(decisionItemName);
     }
 
     /**

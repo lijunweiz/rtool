@@ -11,10 +11,10 @@ import java.util.Objects;
 public class DecideResult implements Serializable {
 
     /** 当前决策项不通过或者出现异常时，是否强制继续执行下一个决策项 */
-    private Boolean forceContinue = DefaultValue.TRUE;
+    private boolean forceContinue = DefaultValue.TRUE;
 
     /** 决策流是否最终通过 */
-    private Boolean pass = DefaultValue.TRUE;
+    private boolean pass = DefaultValue.TRUE;
 
     /** 提示信息 */
     private String msg = DefaultValue.MSG_SUCCESS;
@@ -25,15 +25,15 @@ public class DecideResult implements Serializable {
     /** 返回给客户端的决策结果数据 */
     private Map<String, Object> data = new HashMap<>();
 
-    public Boolean getForceContinue() {
+    public boolean getForceContinue() {
         return forceContinue;
     }
 
-    public void setForceContinue(Boolean forceContinue) {
+    public void setForceContinue(boolean forceContinue) {
         this.forceContinue = forceContinue;
     }
 
-    public Boolean getPass() {
+    public boolean getPass() {
         return pass;
     }
 

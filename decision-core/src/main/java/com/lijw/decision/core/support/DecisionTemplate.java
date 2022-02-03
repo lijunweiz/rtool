@@ -24,7 +24,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
 
     @Override
     public void execute(Context context) throws DecisionException {
-        execute(context, getDecisionFunctions(), DefaultValue.TRUE.booleanValue());
+        execute(context, getDecisionFunctions(), DefaultValue.TRUE);
     }
 
     @Override
