@@ -5,6 +5,7 @@ package com.lijw.decision.core;
  */
 public enum DecisionStatus {
 
+    SUBMIT(0, "请求提交"),
     CONFIRM(1, "请求确认"),
     PROCESSING(2, "处理中"),
     FINISHED(3, "处理完成"),
