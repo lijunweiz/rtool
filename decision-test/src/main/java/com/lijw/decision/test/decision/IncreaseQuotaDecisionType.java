@@ -8,7 +8,7 @@ public class IncreaseQuotaDecisionType extends AbstractDecisionType {
 
     @Override
     public boolean process(Context context) {
-        return DefaultValue.TRUE.booleanValue();
+        return DefaultValue.TRUE;
     }
 
     @Override

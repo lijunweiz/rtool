@@ -7,6 +7,7 @@ import com.lijw.decision.core.exception.DecisionException;
 import com.lijw.decision.core.support.DecisionTemplate;
 import com.lijw.decision.core.util.StringUtils;
 import com.lijw.decision.test.Education;
+import com.lijw.decision.test.EducationDecision;
 import com.lijw.decision.test.Phone;
 import com.lijw.decision.test.Profession;
 import com.lijw.decision.test.decision.CreditDecisionType;
