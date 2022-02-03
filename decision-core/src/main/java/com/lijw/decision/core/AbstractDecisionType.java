@@ -8,6 +8,10 @@ public abstract class AbstractDecisionType implements DecisionType {
     private String decisionTypeName;
 
     public AbstractDecisionType() {
+        this(null);
+    }
+
+    public AbstractDecisionType(Context context) {
         this.decisionTypeName = StringUtils.getCamelName(getClass());
     }
 

@@ -6,6 +6,6 @@ package com.lijw.decision.core;
  */
 public interface DecisionType extends Decision {
 
-    boolean process();
+    boolean process(Context context);
 
 }

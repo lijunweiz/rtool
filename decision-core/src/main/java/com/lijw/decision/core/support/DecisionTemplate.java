@@ -98,7 +98,7 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
 
         logger.info("探测到决策类型: {}", decisionTypeName);
 
-        boolean process = decisionType.process();
+        boolean process = decisionType.process(context);
         if (process) {
             logger.info("决策类型: {}, 预判定成功", decisionTypeName);
         } else {
