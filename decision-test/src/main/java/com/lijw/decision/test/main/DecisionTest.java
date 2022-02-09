@@ -3,6 +3,7 @@ package com.lijw.decision.test.main;
 import com.alibaba.fastjson.JSONObject;
 import com.lijw.decision.core.Context;
 import com.lijw.decision.core.DecisionItem;
+import com.lijw.decision.core.DecisionStatus;
 import com.lijw.decision.core.exception.DecisionException;
 import com.lijw.decision.core.support.DecisionTemplate;
 import com.lijw.decision.core.util.StringUtils;
@@ -47,6 +48,8 @@ public class DecisionTest {
 		decisionItem.put(phone.getName(), phone);
 		decisionItem.put(profession.getName(), profession);
 		context.setDecisionItem(decisionItem);
+
+		context.setStatus(DecisionStatus.SUBMIT);
 
 		// 执行决策
 		decisionTemplate.execute(context);
