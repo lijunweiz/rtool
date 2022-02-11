@@ -35,7 +35,7 @@
 
     <modules>
         <module>decision-core</module>
-        <module>decision-test</module>
+        <module>decision-boot</module>
     </modules>
 
     <properties>
