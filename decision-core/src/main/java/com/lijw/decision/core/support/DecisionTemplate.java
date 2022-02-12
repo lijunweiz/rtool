@@ -22,11 +22,35 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         super();
     }
 
+    /**
+     *
+     * @param context 决策流执行上下文
+     * @throws DecisionException
+     */
     @Override
     public void execute(Context context) throws DecisionException {
-        execute(context, getDecisionFunctions(), DefaultValue.TRUE);
+        execute(context, getDecisionFunctions());
     }
 
+    /**
+     * 如果直接调用该方法，需要自己保证decisionFunctions的顺序
+     * @param context 决策上下文
+     * @param decisionFunctions 决策函数
+     * @throws DecisionException
+     */
+    @Override
+    public void execute(Context context, List<DecisionFunction> decisionFunctions) throws DecisionException {
+        execute(context, decisionFunctions, DefaultValue.TRUE);
+    }
+
+    /**
+     *
+     * @param context 决策流执行上下文
+     * @param decisionFunctions
+     * @param transfer 是否是传递的，true or false 该参数绝对是否对decisionFunctions进行排序，
+     *                 如果decisionFunctions已经有序则为true,否则应该填写false
+     * @throws DecisionException
+     */
     @Override
     public void execute(Context context, List<DecisionFunction> decisionFunctions, boolean transfer) throws DecisionException {
         if (Objects.isNull(context)) {

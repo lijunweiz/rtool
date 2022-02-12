@@ -2,13 +2,14 @@ package com.lijw.decision.test.main;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lijw.decision.core.Context;
+import com.lijw.decision.core.DecideResult;
 import com.lijw.decision.core.DecisionItem;
 import com.lijw.decision.core.DecisionStatus;
 import com.lijw.decision.core.exception.DecisionException;
+import com.lijw.decision.core.result.Result;
 import com.lijw.decision.core.support.DecisionTemplate;
 import com.lijw.decision.core.util.StringUtils;
 import com.lijw.decision.test.Education;
-import com.lijw.decision.test.EducationDecision;
 import com.lijw.decision.test.Phone;
 import com.lijw.decision.test.Profession;
 import com.lijw.decision.test.decision.CreditDecisionType;
@@ -58,6 +59,13 @@ public class DecisionTest {
 		String result = JSONObject.toJSONString(context.getResult());
 
 		logger.info("执行结果: {}", result);
+
+		DecideResult decideResult = context.getResult();
+		if (decideResult.getPass()) {
+			logger.info("返回Result: {}", Result.success(decideResult.getData()).toJsonString());
+		} else {
+			logger.info("返回Result: {}", Result.fail().toJsonString());
+		}
 
 	}
 	

@@ -47,8 +47,16 @@ public abstract class DecisionSupport {
         return decisionTypes;
     }
 
+    public void setDecisionTypes(List<DecisionType> decisionTypes) {
+        this.decisionTypes = decisionTypes;
+    }
+
     public List<DecisionFunction> getDecisionFunctions() {
         return decisionFunctions;
+    }
+
+    public void setDecisionFunctions(List<DecisionFunction> decisionFunctions) {
+        this.decisionFunctions = decisionFunctions;
     }
 
     /**
@@ -68,11 +76,15 @@ public abstract class DecisionSupport {
         return products;
     }
 
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     public Properties getProperties() {
         return properties;
     }
 
-    private void initConfig() {
+    protected void initConfig() {
         String current = DEFAULT_LOCATION;
         String config = System.getProperty(DECISION_CONFIG);
         if (StringUtils.isNullOrEmpty(config)) {
