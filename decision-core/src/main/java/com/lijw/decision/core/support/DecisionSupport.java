@@ -104,14 +104,14 @@ public abstract class DecisionSupport {
         // 获取classpath下的文件绝对路径, 进行文件判断
         File file = null;
         URL resource = getClass().getResource(current);
-        if (Objects.nonNull(resource)) {
+        if (Objects.isNull(resource)) {
+            return;
+        } else {
             String path = resource.getPath();
             file = new File(path);
             if (!file.isFile()) {
                 return;
             }
-        } else {
-            return;
         }
 
         InputStream is = null;
