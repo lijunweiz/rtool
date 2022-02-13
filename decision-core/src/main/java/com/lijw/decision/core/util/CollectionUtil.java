@@ -28,13 +28,12 @@ public final class CollectionUtil {
      * @param obj 待判断对象
      * @return 如果不是null也不是empty 返回true, 否则返回false
      */
-    @SuppressWarnings("unchecked")
     public static boolean notNullAndEmpty(Object obj) {
         if (obj instanceof Collection) {
-            Collection collection = Collection.class.cast(obj);
+            Collection<?> collection = Collection.class.cast(obj);
             return !isNullOrEmpty(collection);
         } else if (obj instanceof Map) {
-            Map map = Map.class.cast(obj);
+            Map<?, ?> map = Map.class.cast(obj);
             return !isNullOrEmpty(map);
         } else {
             return false;
