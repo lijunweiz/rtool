@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,10 +38,6 @@ public abstract class DecisionSupport {
     private Properties properties = new Properties();
 
     public DecisionSupport() {
-        initConfig();
-        initDecisionFunction();
-        initDecisionType();
-        initProduct();
     }
 
     public List<DecisionType> getDecisionTypes() {
@@ -64,7 +61,7 @@ public abstract class DecisionSupport {
      * @param decisionFunctions
      * @return
      */
-    protected List<DecisionFunction> getDecisionFunctions(List<DecisionFunction> decisionFunctions) {
+    public List<DecisionFunction> getDecisionFunctions(List<DecisionFunction> decisionFunctions) {
         if (CollectionUtil.isNullOrEmpty(decisionFunctions)) {
             return decisionFunctions;
         }
@@ -84,7 +81,17 @@ public abstract class DecisionSupport {
         return properties;
     }
 
-    protected void initConfig() {
+    /**
+     * 初始化决策配置信息
+     */
+    public void init() {
+        this.initConfig();
+        this.initDecisionFunction();
+        this.initDecisionType();
+        this.initProduct();
+    }
+
+    public void initConfig() {
         String current = DEFAULT_LOCATION;
         String config = System.getProperty(DECISION_CONFIG);
         if (StringUtils.isNullOrEmpty(config)) {
@@ -95,9 +102,15 @@ public abstract class DecisionSupport {
         }
 
         // 获取classpath下的文件绝对路径, 进行文件判断
-        String path = getClass().getResource(current).getPath();
-        File file = new File(path);
-        if (!file.isFile()) {
+        File file = null;
+        URL resource = getClass().getResource(current);
+        if (Objects.nonNull(resource)) {
+            String path = resource.getPath();
+            file = new File(path);
+            if (!file.isFile()) {
+                return;
+            }
+        } else {
             return;
         }
 
@@ -121,7 +134,7 @@ public abstract class DecisionSupport {
      * 加载接口{@link DecisionFunction}的所有实现类，/META-INF/services 优先级更高
      * @return
      */
-    protected void initDecisionFunction() {
+    public void initDecisionFunction() {
         initLoaderService(DecisionFunction.class, decisionFunctions);
         initConfigService(DecisionFunction.class, decisionFunctions);
         decisionFunctions = getDecisionFunctions(decisionFunctions);
@@ -130,12 +143,12 @@ public abstract class DecisionSupport {
     /**
      * 初始化决策类型 {@link DecisionType}的所有实现类，/META-INF/services 优先级更高
      */
-    protected void initDecisionType() {
+    public void initDecisionType() {
         initLoaderService(DecisionType.class, decisionTypes);
         initConfigService(DecisionType.class, decisionTypes);
     }
 
-    protected void initProduct() {
+    public void initProduct() {
         initLoaderService(Product.class, products);
         initConfigService(Product.class, products);
     }

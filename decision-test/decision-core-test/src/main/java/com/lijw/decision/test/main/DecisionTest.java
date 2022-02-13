@@ -28,9 +28,11 @@ import java.util.Map;
 public class DecisionTest {
 
 	static Logger logger = LoggerFactory.getLogger(DecisionTest.class);
-	static DecisionTemplate decisionTemplate = new DecisionTemplate();
 
 	public static void main(String[] args) throws DecisionException {
+		DecisionTemplate decisionTemplate = new DecisionTemplate();
+		decisionTemplate.init();
+
 		// 创建决策上下文
 		Context context = new Context();
 
@@ -68,5 +70,5 @@ public class DecisionTest {
 		}
 
 	}
-	
+
 }
