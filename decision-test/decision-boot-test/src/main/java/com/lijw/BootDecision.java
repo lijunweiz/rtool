@@ -7,7 +7,8 @@ import com.lijw.decision.core.support.DecisionTemplate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -23,9 +24,9 @@ public class BootDecision {
         SpringApplication.run(BootDecision.class, args);
     }
 
-    @GetMapping("/g")
-    public ResponseEntity<Result> getResult() throws DecisionException {
-        decisionTemplate.execute(new Context());
+    @PostMapping("/c")
+    public ResponseEntity<Result> getResult(@RequestBody Context context) throws DecisionException {
+        decisionTemplate.execute(context);
         return ResponseEntity.of(Result.success().optional());
     }
 
