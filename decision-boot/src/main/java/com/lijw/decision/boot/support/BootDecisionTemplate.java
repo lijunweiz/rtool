@@ -22,7 +22,7 @@ public class BootDecisionTemplate extends DecisionTemplate {
     @Override
     public void initDecisionFunction() {
         Map<String, DecisionFunction> decisionFunctionMap = applicationContext.getBeansOfType(DecisionFunction.class);
-        if (!CollectionUtil.isNullOrEmpty(decisionFunctionMap)) {
+        if (CollectionUtil.notNullAndEmpty(decisionFunctionMap)) {
             List<DecisionFunction> decisionFunctions = super.getDecisionFunctions(decisionFunctionMap.values().stream().collect(Collectors.toList()));
             super.setDecisionFunctions(decisionFunctions);
         }
@@ -31,7 +31,7 @@ public class BootDecisionTemplate extends DecisionTemplate {
     @Override
     public void initDecisionType() {
         Map<String, DecisionType> decisionTypeMap = applicationContext.getBeansOfType(DecisionType.class);
-        if (!CollectionUtil.isNullOrEmpty(decisionTypeMap)) {
+        if (CollectionUtil.notNullAndEmpty(decisionTypeMap)) {
             super.setDecisionTypes(decisionTypeMap.values().stream().collect(Collectors.toList()));
         }
     }
@@ -39,7 +39,7 @@ public class BootDecisionTemplate extends DecisionTemplate {
     @Override
     public void initProduct() {
         Map<String, Product> productMap = applicationContext.getBeansOfType(Product.class);
-        if (!CollectionUtil.isNullOrEmpty(productMap)) {
+        if (CollectionUtil.notNullAndEmpty(productMap)) {
             super.setProducts(productMap.values().stream().collect(Collectors.toList()));
         }
     }
