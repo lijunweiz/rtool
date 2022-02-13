@@ -95,4 +95,13 @@ public class StringUtils {
         return Objects.isNull(str) || str.trim().isEmpty();
     }
 
+    /**
+     * 判断字符不是null也不是empty
+     * @param str
+     * @return
+     */
+    public static boolean notNullAndEmpty(String str) {
+        return !isNullOrEmpty(str);
+    }
+
 }
