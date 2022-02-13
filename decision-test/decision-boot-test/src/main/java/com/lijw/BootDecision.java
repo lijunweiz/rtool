@@ -26,6 +26,7 @@ public class BootDecision {
 
     @PostMapping("/c")
     public ResponseEntity<Result> getResult(@RequestBody Context context) throws DecisionException {
+
         decisionTemplate.execute(context);
         return ResponseEntity.of(Result.success().optional());
     }

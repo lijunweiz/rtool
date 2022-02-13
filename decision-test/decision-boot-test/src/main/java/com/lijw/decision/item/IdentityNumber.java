@@ -1,4 +1,4 @@
-package com.lijw.item;
+package com.lijw.decision.item;
 
 import com.lijw.decision.core.AbstractDecisionItem;
 

@@ -1,16 +1,15 @@
-package com.lijw;
+package com.lijw.decision;
 
 import com.lijw.decision.core.AbstractDecision;
 import com.lijw.decision.core.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
-public class DecisionBlackList extends AbstractDecision {
+public class DecisionIdentityNumber extends AbstractDecision {
 
-    private Logger logger = LoggerFactory.getLogger(DecisionBlackList.class);
+    private Logger logger = LoggerFactory.getLogger(DecisionIdentityNumber.class);
 
     @Override
     public void decide(Context context) {
@@ -19,7 +18,6 @@ public class DecisionBlackList extends AbstractDecision {
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE;
+        return Integer.MIN_VALUE + 1;
     }
-
 }
