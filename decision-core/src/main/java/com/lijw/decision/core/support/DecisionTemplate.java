@@ -99,6 +99,8 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
             }
         }
 
+        logger.info("执行流处理完成, 执行决策decisionFunction总数: {}", decisionFunctions.size());
+
         // 3 决策流处理完成
         context.setStatus(DecisionStatus.FINISHED);
     }
@@ -110,23 +112,23 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
      * @throws DecisionException
      */
     private DecisionType decisionTypeProcess(Context context) throws DecisionException {
-        String decisionTypeName = context.getDecisionType().getName();
-        if (StringUtils.isNullOrEmpty(decisionTypeName)) {
+        String contextDecisionType = context.getDecisionType();
+        if (StringUtils.isNullOrEmpty(contextDecisionType)) {
             throw new DecisionException("决策类型名称不能为空");
         }
         DecisionType decisionType = this.getDecisionTypes()
                 .stream()
-                .filter(x -> x.getName().equalsIgnoreCase(decisionTypeName))
+                .filter(x -> x.getName().equalsIgnoreCase(contextDecisionType))
                 .findFirst()
-                .orElseThrow(() -> new DecisionException("未匹配到决策类型: " + decisionTypeName));
+                .orElseThrow(() -> new DecisionException("未匹配到决策类型: " + contextDecisionType));
 
-        logger.info("探测到决策类型: {}", decisionTypeName);
+        logger.info("探测到决策类型: {}", contextDecisionType);
 
         boolean process = decisionType.process(context);
         if (process) {
-            logger.info("决策类型: {}, 预判定成功", decisionTypeName);
+            logger.info("决策类型: {}, 预判定成功", contextDecisionType);
         } else {
-            throw new DecisionException("决策类型: " + decisionTypeName + ", 预判定失败");
+            throw new DecisionException("决策类型: " + contextDecisionType + ", 预判定失败");
         }
 
         return decisionType;
