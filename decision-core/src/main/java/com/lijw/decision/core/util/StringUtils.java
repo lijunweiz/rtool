@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class StringUtils {
+public final class StringUtils {
 
     /** 大写转为小写cache */
     private final static Map<Character, Character> UPPER_TO_LOWER = new HashMap<>();

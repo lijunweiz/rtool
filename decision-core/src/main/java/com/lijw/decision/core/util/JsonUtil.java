@@ -8,7 +8,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 /**
  * json 工具类
  */
-public class JsonUtil {
+public final class JsonUtil {
 
     public static String toJSONString(Object object) {
         return toJSONString(object, SerializerFeature.WriteMapNullValue);
