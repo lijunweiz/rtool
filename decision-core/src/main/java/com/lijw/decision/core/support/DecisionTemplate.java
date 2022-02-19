@@ -87,6 +87,12 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         context.setStatus(DecisionStatus.PROCESSING);
         for (DecisionFunction function: decisionFunctions) {
             try {
+                if (function.skip(context)) {
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("跳过当前决策函数: {}", function.getName());
+                    }
+                    continue;
+                }
                 if (function.canDecide(context)) {
                     function.decide(context);
                 }
