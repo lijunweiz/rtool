@@ -88,6 +88,9 @@ public abstract class DecisionSupport {
      * 初始化决策配置信息
      */
     public void init() {
+        if (detectEnvironment()) {
+            return;
+        }
         this.initConfig();
         this.initDecisionFunction();
         this.initDecisionType();
@@ -95,10 +98,6 @@ public abstract class DecisionSupport {
     }
 
     protected void initConfig() {
-        if (detectEnvironment()) {
-            return;
-        }
-
         String current = DEFAULT_LOCATION;
         String config = System.getProperty(DECISION_CONFIG);
         if (StringUtils.isNullOrEmpty(config)) {
@@ -147,6 +146,7 @@ public abstract class DecisionSupport {
      * 探测是否是spring环境
      * @return 是spring环境返回true 否则返回false
      */
+    @SuppressWarnings("rawtype")
     private boolean detectEnvironment() {
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -192,11 +192,11 @@ public abstract class DecisionSupport {
      * @param list
      * @param <T>
      */
-    private <T> void initLoaderService(Class<?> clazz, List<T> list) {
+    private <T> void initLoaderService(Class<T> clazz, List<T> list) {
         if (Objects.isNull(clazz) || Objects.isNull(list)) {
             return;
         }
-        ServiceLoader<T> serviceLoader = (ServiceLoader<T>) ServiceLoader.load(clazz);
+        ServiceLoader<T> serviceLoader = ServiceLoader.load(clazz);
         Iterator<T> iterator = serviceLoader.iterator();
         while (iterator.hasNext()) {
             T type = iterator.next();
@@ -210,7 +210,7 @@ public abstract class DecisionSupport {
      * @param list
      * @param <T>
      */
-    private <T> void initConfigService(Class<?> clazz, List<T> list) {
+    private <T> void initConfigService(Class<T> clazz, List<T> list) {
         if (Objects.isNull(clazz) || Objects.isNull(list)) {
             return;
         }
