@@ -32,7 +32,7 @@ public enum DecisionTypeEnum {
         return valueCN;
     }
 
-    public Optional<DecisionTypeEnum> getDecisionType(String name) {
+    public static Optional<DecisionTypeEnum> getDecisionType(String name) {
         if (StringUtils.isNullOrEmpty(name)) {
             return Optional.empty();
         }
