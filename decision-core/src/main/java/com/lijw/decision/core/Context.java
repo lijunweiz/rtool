@@ -1,7 +1,5 @@
 package com.lijw.decision.core;
 
-import com.lijw.decision.core.util.JsonUtil;
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -18,7 +16,7 @@ public class Context {
     /** 决策产品 */
     private String productName;
     /** 参与决策的数据k为决策项名称，v为决策数据 */
-    private Map<String, Object> decisionItem;
+    private Map<String, DecisionItem> decisionItems;
     /** 决策状态，表示当前正在处理的数据项的处理状态 */
     private DecisionStatus status;
     /** 用户需要额外新增的其他数据 */
@@ -34,56 +32,63 @@ public class Context {
         return contextId;
     }
 
-    public void setContextId(String contextId) {
+    public Context setContextId(String contextId) {
         this.contextId = contextId;
+        return this;
     }
 
     public String getDecisionType() {
         return decisionType;
     }
 
-    public void setDecisionType(String decisionType) {
+    public Context setDecisionType(String decisionType) {
         this.decisionType = decisionType;
+        return this;
     }
 
     public String getProductName() {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public Context setProductName(String productName) {
         this.productName = productName;
+        return this;
     }
 
-    public Map<String, Object> getDecisionItem() {
-        return decisionItem;
+    public Map<String, DecisionItem> getDecisionItems() {
+        return decisionItems;
     }
 
-    public void setDecisionItem(Map<String, Object> decisionItem) {
-        this.decisionItem = decisionItem;
+    public Context setDecisionItems(Map<String, DecisionItem> decisionItems) {
+        this.decisionItems = decisionItems;
+        return this;
     }
 
     public DecisionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(DecisionStatus status) {
+    public Context setStatus(DecisionStatus status) {
         this.status = status;
+        return this;
     }
 
     public Map<String, Object> getOtherData() {
         return otherData;
     }
 
-    public void setOtherData(Map<String, Object> otherData) {
+    public Context setOtherData(Map<String, Object> otherData) {
         this.otherData = otherData;
+        return this;
     }
 
     public DecideResult getResult() {
         return result;
     }
 
-    public void setResult(DecideResult result) {
+    public Context setResult(DecideResult result) {
         this.result = result;
+        return this;
     }
 
     /**
@@ -97,8 +102,7 @@ public class Context {
         if (Objects.isNull(clazz)) {
             throw new IllegalArgumentException("参数clazz不能为null");
         } else {
-            String json = JsonUtil.toJSONString(getDecisionItem(decisionItemName));
-            return JsonUtil.parseObject(json, clazz);
+            return (T) getDecisionItem(decisionItemName);
         }
     }
 
@@ -106,8 +110,8 @@ public class Context {
      * 返回指定名称的决策项
      * @return
      */
-    public Object getDecisionItem(String decisionItemName) {
-        return getDecisionItem().get(decisionItemName);
+    public DecisionItem getDecisionItem(String decisionItemName) {
+        return getDecisionItems().get(decisionItemName);
     }
 
     /**
@@ -115,8 +119,13 @@ public class Context {
      * @param decisionItemName
      * @param decisionItem
      */
-    public void setDecisionItem(String decisionItemName, DecisionItem decisionItem) {
-        getDecisionItem().put(decisionItemName, decisionItem);
+    public Context setDecisionItem(String decisionItemName, DecisionItem decisionItem) {
+        getDecisionItems().put(decisionItemName, decisionItem);
+        return this;
+    }
+
+    public static Context getInstance() {
+        return new Context();
     }
 
     @Override
@@ -127,7 +136,7 @@ public class Context {
         return Objects.equals(contextId, context.contextId)
                 && Objects.equals(decisionType, context.decisionType)
                 && Objects.equals(productName, context.productName)
-                && Objects.equals(decisionItem, context.decisionItem)
+                && Objects.equals(decisionItems, context.decisionItems)
                 && status == context.status
                 && Objects.equals(otherData, context.otherData)
                 && Objects.equals(result, context.result);
@@ -135,7 +144,7 @@ public class Context {
 
     @Override
     public int hashCode() {
-        return Objects.hash(contextId, decisionType, productName, decisionItem, status, otherData, result);
+        return Objects.hash(contextId, decisionType, productName, decisionItems, status, otherData, result);
     }
 
     @Override
@@ -144,7 +153,7 @@ public class Context {
                 "contextId='" + contextId + '\'' +
                 ", decisionType='" + decisionType + '\'' +
                 ", productName='" + productName + '\'' +
-                ", decisionItem=" + decisionItem +
+                ", decisionItems=" + decisionItems +
                 ", status=" + status +
                 ", otherData=" + otherData +
                 ", result=" + result +

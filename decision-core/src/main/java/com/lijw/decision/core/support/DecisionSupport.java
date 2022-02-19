@@ -89,9 +89,8 @@ public abstract class DecisionSupport {
      */
     public void init() {
         if (detectEnvironment()) {
-            return;
+            this.initConfig();// 只有在普通环境才加载独有配置项
         }
-        this.initConfig();
         this.initDecisionFunction();
         this.initDecisionType();
         this.initProduct();
@@ -143,8 +142,8 @@ public abstract class DecisionSupport {
     }
 
     /**
-     * 探测是否是spring环境
-     * @return 是spring环境返回true 否则返回false
+     * 探测是普通环境还是spring环境
+     * @return 是普通环境返回true spring环境返回false
      */
     @SuppressWarnings("rawtype")
     private boolean detectEnvironment() {
@@ -156,10 +155,11 @@ public abstract class DecisionSupport {
             } else {
                 appContext = Class.forName(APPLICATION_CONTEXT, DefaultValue.FALSE, loader);
             }
-            return Objects.isNull(appContext) ? DefaultValue.FALSE : DefaultValue.TRUE;
+
+            return Objects.isNull(appContext);
         } catch (Throwable e) {
             // ignore e
-            return DefaultValue.FALSE;
+            return DefaultValue.TRUE;
         }
     }
 
