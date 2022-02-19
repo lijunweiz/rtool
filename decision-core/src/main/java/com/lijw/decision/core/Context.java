@@ -98,6 +98,7 @@ public class Context {
      * @param <T>
      * @return
      */
+    @SuppressWarnings("unchecked")
     public <T> T getDecisionItem(String decisionItemName, Class<T> clazz) {
         if (Objects.isNull(clazz)) {
             throw new IllegalArgumentException("参数clazz不能为null");
