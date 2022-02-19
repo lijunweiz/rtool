@@ -2,6 +2,7 @@ package com.lijw.decision.core.support;
 
 import com.lijw.decision.core.DecisionFunction;
 import com.lijw.decision.core.DecisionType;
+import com.lijw.decision.core.DefaultValue;
 import com.lijw.decision.core.product.Product;
 import com.lijw.decision.core.util.CollectionUtil;
 import com.lijw.decision.core.util.IOUtils;
@@ -36,6 +37,8 @@ public abstract class DecisionSupport {
     private static final String SEPARATOR = ",";
     /** 解析完成的配置属性 */
     private Properties properties = new Properties();
+    /** spring环境 */
+    private final static String APPLICATION_CONTEXT = "org.springframework.context.ApplicationContext";
 
     public DecisionSupport() {
     }
@@ -91,14 +94,22 @@ public abstract class DecisionSupport {
         this.initProduct();
     }
 
-    public void initConfig() {
+    protected void initConfig() {
+        if (detectEnvironment()) {
+            return;
+        }
+
         String current = DEFAULT_LOCATION;
         String config = System.getProperty(DECISION_CONFIG);
         if (StringUtils.isNullOrEmpty(config)) {
-            logger.debug("未探测到系统属性: {}, 使用默认配置文件: {}", DECISION_CONFIG, current);
+            if (logger.isDebugEnabled()) {
+                logger.debug("未探测到系统属性: {}, 使用默认配置文件: {}", DECISION_CONFIG, current);
+            }
         } else {
             current = config;
-            logger.debug("探测到系统属性: {}, 使用配置文件: {}", DECISION_CONFIG, current);
+            if (logger.isDebugEnabled()) {
+                logger.debug("探测到系统属性: {}, 使用配置文件: {}", DECISION_CONFIG, current);
+            }
         }
 
         // 获取classpath下的文件绝对路径, 进行文件判断
@@ -119,7 +130,9 @@ public abstract class DecisionSupport {
             is = Thread.currentThread().getContextClassLoader().getResourceAsStream(file.getName());
             if (Objects.nonNull(is)) {
                 properties.load(is);
-                logger.debug("配置文件: {} 加载成功", current);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("配置文件: {} 加载成功", current);
+                }
             } else {
                 logger.warn("配置文件: {} 加载失败", current);
             }
@@ -131,10 +144,30 @@ public abstract class DecisionSupport {
     }
 
     /**
+     * 探测是否是spring环境
+     * @return 是spring环境返回true 否则返回false
+     */
+    private boolean detectEnvironment() {
+        try {
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            Class<?> appContext = null;
+            if (Objects.isNull(loader)) {
+                appContext = Class.forName(APPLICATION_CONTEXT);
+            } else {
+                appContext = Class.forName(APPLICATION_CONTEXT, DefaultValue.FALSE, loader);
+            }
+            return Objects.isNull(appContext) ? DefaultValue.FALSE : DefaultValue.TRUE;
+        } catch (Throwable e) {
+            // ignore e
+            return DefaultValue.FALSE;
+        }
+    }
+
+    /**
      * 加载接口{@link DecisionFunction}的所有实现类，/META-INF/services 优先级更高
      * @return
      */
-    public void initDecisionFunction() {
+    protected void initDecisionFunction() {
         initLoaderService(DecisionFunction.class, decisionFunctions);
         initConfigService(DecisionFunction.class, decisionFunctions);
         decisionFunctions = getDecisionFunctions(decisionFunctions);
@@ -143,12 +176,12 @@ public abstract class DecisionSupport {
     /**
      * 初始化决策类型 {@link DecisionType}的所有实现类，/META-INF/services 优先级更高
      */
-    public void initDecisionType() {
+    protected void initDecisionType() {
         initLoaderService(DecisionType.class, decisionTypes);
         initConfigService(DecisionType.class, decisionTypes);
     }
 
-    public void initProduct() {
+    protected void initProduct() {
         initLoaderService(Product.class, products);
         initConfigService(Product.class, products);
     }
