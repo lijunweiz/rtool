@@ -22,11 +22,35 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         super();
     }
 
+    /**
+     *
+     * @param context 决策流执行上下文
+     * @throws DecisionException
+     */
     @Override
     public void execute(Context context) throws DecisionException {
-        execute(context, getDecisionFunctions(), DefaultValue.TRUE);
+        execute(context, getDecisionFunctions());
     }
 
+    /**
+     * 如果直接调用该方法，需要自己保证decisionFunctions的顺序
+     * @param context 决策上下文
+     * @param decisionFunctions 决策函数
+     * @throws DecisionException
+     */
+    @Override
+    public void execute(Context context, List<DecisionFunction> decisionFunctions) throws DecisionException {
+        execute(context, decisionFunctions, DefaultValue.TRUE);
+    }
+
+    /**
+     *
+     * @param context 决策流执行上下文
+     * @param decisionFunctions
+     * @param transfer 是否是传递的，true or false 该参数绝对是否对decisionFunctions进行排序，
+     *                 如果decisionFunctions已经有序则为true,否则应该填写false
+     * @throws DecisionException
+     */
     @Override
     public void execute(Context context, List<DecisionFunction> decisionFunctions, boolean transfer) throws DecisionException {
         if (Objects.isNull(context)) {
@@ -63,6 +87,12 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
         context.setStatus(DecisionStatus.PROCESSING);
         for (DecisionFunction function: decisionFunctions) {
             try {
+                if (function.skip(context)) {
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("跳过当前决策函数: {}", function.getName());
+                    }
+                    continue;
+                }
                 if (function.canDecide(context)) {
                     function.decide(context);
                 }
@@ -75,6 +105,8 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
             }
         }
 
+        logger.info("执行流处理完成, 执行决策decisionFunction总数: {}", decisionFunctions.size());
+
         // 3 决策流处理完成
         context.setStatus(DecisionStatus.FINISHED);
     }
@@ -86,23 +118,23 @@ public class DecisionTemplate extends DecisionSupport implements DecisionOperati
      * @throws DecisionException
      */
     private DecisionType decisionTypeProcess(Context context) throws DecisionException {
-        String decisionTypeName = context.getDecisionType().getName();
-        if (StringUtils.isNullOrEmpty(decisionTypeName)) {
+        String contextDecisionType = context.getDecisionType();
+        if (StringUtils.isNullOrEmpty(contextDecisionType)) {
             throw new DecisionException("决策类型名称不能为空");
         }
         DecisionType decisionType = this.getDecisionTypes()
                 .stream()
-                .filter(x -> x.getName().equalsIgnoreCase(decisionTypeName))
+                .filter(x -> x.getName().equalsIgnoreCase(contextDecisionType))
                 .findFirst()
-                .orElseThrow(() -> new DecisionException("未匹配到决策类型: " + decisionTypeName));
+                .orElseThrow(() -> new DecisionException("未匹配到决策类型: " + contextDecisionType));
 
-        logger.info("探测到决策类型: {}", decisionTypeName);
+        logger.info("探测到决策类型: {}", contextDecisionType);
 
         boolean process = decisionType.process(context);
         if (process) {
-            logger.info("决策类型: {}, 预判定成功", decisionTypeName);
+            logger.info("决策类型: {}, 预判定成功", contextDecisionType);
         } else {
-            throw new DecisionException("决策类型: " + decisionTypeName + ", 预判定失败");
+            throw new DecisionException("决策类型: " + contextDecisionType + ", 预判定失败");
         }
 
         return decisionType;

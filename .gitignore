@@ -4,9 +4,10 @@
 # 忽略
 .idea
 *.iml
-decision-common/target
 decision-core/target
-decision-test/target
+decision-boot/target
+decision-test/decision-core-test/target
+decision-test/decision-boot-test/target
 
 # Log file
 *.log

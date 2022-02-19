@@ -1,21 +1,24 @@
 package com.lijw.decision.core;
 
-import com.lijw.decision.core.util.StringUtils;
+import com.lijw.decision.core.util.JsonUtil;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * 贯穿整个决策流的上下文
  */
 public class Context {
 
+    /** contextId 每一次创建都生成一个唯一id */
+    private String contextId;
     /** 决策类型 */
-    private DecisionType decisionType;
+    private String decisionType;
     /** 决策产品 */
     private String productName;
     /** 参与决策的数据k为决策项名称，v为决策数据 */
-    private Map<String, DecisionItem> decisionItem;
+    private Map<String, Object> decisionItem;
     /** 决策状态，表示当前正在处理的数据项的处理状态 */
     private DecisionStatus status;
     /** 用户需要额外新增的其他数据 */
@@ -23,11 +26,23 @@ public class Context {
     /** 决策结果 */
     private DecideResult result = new DecideResult();
 
-    public DecisionType getDecisionType() {
+    public Context() {
+        this.contextId = UUID.randomUUID().toString();
+    }
+
+    public String getContextId() {
+        return contextId;
+    }
+
+    public void setContextId(String contextId) {
+        this.contextId = contextId;
+    }
+
+    public String getDecisionType() {
         return decisionType;
     }
 
-    public void setDecisionType(DecisionType decisionType) {
+    public void setDecisionType(String decisionType) {
         this.decisionType = decisionType;
     }
 
@@ -39,11 +54,11 @@ public class Context {
         this.productName = productName;
     }
 
-    public Map<String, DecisionItem> getDecisionItem() {
+    public Map<String, Object> getDecisionItem() {
         return decisionItem;
     }
 
-    public void setDecisionItem(Map<String, DecisionItem> decisionItem) {
+    public void setDecisionItem(Map<String, Object> decisionItem) {
         this.decisionItem = decisionItem;
     }
 
@@ -73,6 +88,8 @@ public class Context {
 
     /**
      * 返回指定名称及类型的决策项
+     * @param decisionItemName
+     * @param clazz
      * @param <T>
      * @return
      */
@@ -80,7 +97,8 @@ public class Context {
         if (Objects.isNull(clazz)) {
             throw new IllegalArgumentException("参数clazz不能为null");
         } else {
-            return (T) getDecisionItem(decisionItemName);
+            String json = JsonUtil.toJSONString(getDecisionItem(decisionItemName));
+            return JsonUtil.parseObject(json, clazz);
         }
     }
 
@@ -88,7 +106,7 @@ public class Context {
      * 返回指定名称的决策项
      * @return
      */
-    public DecisionItem getDecisionItem(String decisionItemName) {
+    public Object getDecisionItem(String decisionItemName) {
         return getDecisionItem().get(decisionItemName);
     }
 
@@ -106,7 +124,10 @@ public class Context {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Context context = (Context) o;
-        return Objects.equals(decisionItem, context.decisionItem)
+        return Objects.equals(contextId, context.contextId)
+                && Objects.equals(decisionType, context.decisionType)
+                && Objects.equals(productName, context.productName)
+                && Objects.equals(decisionItem, context.decisionItem)
                 && status == context.status
                 && Objects.equals(otherData, context.otherData)
                 && Objects.equals(result, context.result);
@@ -114,13 +135,16 @@ public class Context {
 
     @Override
     public int hashCode() {
-        return Objects.hash(decisionItem, status, otherData, result);
+        return Objects.hash(contextId, decisionType, productName, decisionItem, status, otherData, result);
     }
 
     @Override
     public String toString() {
         return "Context{" +
-                "decisionItem=" + decisionItem +
+                "contextId='" + contextId + '\'' +
+                ", decisionType='" + decisionType + '\'' +
+                ", productName='" + productName + '\'' +
+                ", decisionItem=" + decisionItem +
                 ", status=" + status +
                 ", otherData=" + otherData +
                 ", result=" + result +

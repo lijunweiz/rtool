@@ -9,10 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>decision-core</artifactId>
-
-    <name>decision-core</name>
-    <description>决策核心包</description>
+    <artifactId>decision-boot</artifactId>
+    <name>decision-boot</name>
+    <description>决策boot</description>
     <url>https://xxx</url>
     <licenses>
         <license>
@@ -33,28 +32,27 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <decision.version>1.0-SNAPSHOT</decision.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-access</artifactId>
+            <groupId>com.lijw</groupId>
+            <artifactId>decision-core</artifactId>
+            <version>${decision.version}</version>
         </dependency>
     </dependencies>
 

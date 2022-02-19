@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class StringUtils {
+public final class StringUtils {
 
     /** 大写转为小写cache */
     private final static Map<Character, Character> UPPER_TO_LOWER = new HashMap<>();
@@ -93,6 +93,15 @@ public class StringUtils {
      */
     public static boolean isNullOrEmpty(String str) {
         return Objects.isNull(str) || str.trim().isEmpty();
+    }
+
+    /**
+     * 判断字符不是null也不是empty
+     * @param str
+     * @return
+     */
+    public static boolean notNullAndEmpty(String str) {
+        return !isNullOrEmpty(str);
     }
 
 }

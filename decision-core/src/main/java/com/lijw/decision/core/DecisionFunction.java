@@ -15,4 +15,13 @@ public interface DecisionFunction extends Decidable, Decision {
 	 */
 	void decide(Context context);
 
+	/**
+	 * 跳过当前决策函数
+	 * @param context
+	 * @return
+	 */
+	default boolean skip(Context context){
+		return true;
+	}
+
 }

@@ -1,10 +1,10 @@
 package com.lijw.decision.test.decision;
 
-import com.lijw.decision.core.AbstractDecisionType;
 import com.lijw.decision.core.Context;
+import com.lijw.decision.core.DecisionType;
 import com.lijw.decision.core.DefaultValue;
 
-public class IncreaseQuotaDecisionType extends AbstractDecisionType {
+public class WithdrawDecisionType implements DecisionType {
 
     @Override
     public boolean process(Context context) {
@@ -13,7 +13,7 @@ public class IncreaseQuotaDecisionType extends AbstractDecisionType {
 
     @Override
     public String getName() {
-        return DecisionTypeEnum.INCREASE_QUOTA.getValueEN();
+        return DecisionTypeEnum.WITHDRAW.getValueEN();
     }
 
 }
