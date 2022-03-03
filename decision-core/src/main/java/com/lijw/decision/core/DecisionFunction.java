@@ -16,12 +16,12 @@ public interface DecisionFunction extends Decidable, Decision {
 	void decide(Context context);
 
 	/**
-	 * 跳过当前决策函数
+	 * 跳过当前决策函数，默认false
 	 * @param context
-	 * @return
+	 * @return 需要当前决策true or 否则false
 	 */
 	default boolean skip(Context context){
-		return true;
+		return DefaultValue.FALSE;
 	}
 
 }

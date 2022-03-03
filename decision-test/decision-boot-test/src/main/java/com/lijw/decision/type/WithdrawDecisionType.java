@@ -10,7 +10,7 @@ public class WithdrawDecisionType implements DecisionType {
 
     @Override
     public boolean process(Context context) {
-        return DefaultValue.TRUE;
+        return DecisionTypeEnum.getDecisionType(context.getDecisionType()).isPresent();
     }
 
     @Override

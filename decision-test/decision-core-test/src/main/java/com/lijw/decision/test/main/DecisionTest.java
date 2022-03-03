@@ -43,34 +43,28 @@ public class DecisionTest {
 		context.setProductName(StringUtils.getCamelName(AliJieBei.class));
 
 		// 设置决策项
-		Map<String, Object> decisionItem = new HashMap<>();
+		Map<String, DecisionItem> decisionItem = new HashMap<>();
 		Education education = new Education().setDegree("本科");
 		Phone phone = new Phone().setPhoneNumber("123456");
 		Profession profession = new Profession().setProfession("IT");
 		decisionItem.put(education.getName(), education);
 		decisionItem.put(phone.getName(), phone);
 		decisionItem.put(profession.getName(), profession);
-		context.setDecisionItem(decisionItem);
+		context.setDecisionItems(decisionItem);
 
 		context.setStatus(DecisionStatus.SUBMIT);
+
+		logger.info("context内容:\n" + JSONObject.toJSONString(context, SerializerFeature.PrettyFormat));
 
 		// 执行决策
 		decisionTemplate.execute(context);
 
 		// 收集结果
-		String result = JSONObject.toJSONString(context.getResult());
-		result = JSONObject.toJSONString(context, SerializerFeature.PrettyFormat);
-
-		Context context1 = JsonUtil.parseObject(result, Context.class);
-		System.out.println(context1.getDecisionItem("phone", Phone.class));
-
-		logger.info("执行结果: {}", result);
-
 		DecideResult decideResult = context.getResult();
 		if (decideResult.getPass()) {
-			logger.info("返回Result: {}", Result.success(decideResult.getData()).toJsonString());
+			logger.info("成功Result: {}", Result.success(decideResult.getData()).toJsonString());
 		} else {
-			logger.info("返回Result: {}", Result.fail().toJsonString());
+			logger.info("失败Result: {}", Result.fail(decideResult.getData()).toJsonString());
 		}
 
 	}
