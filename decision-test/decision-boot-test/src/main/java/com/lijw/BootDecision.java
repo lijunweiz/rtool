@@ -7,8 +7,7 @@ import com.lijw.decision.core.support.DecisionTemplate;
 import com.lijw.decision.type.DecisionTypeEnum;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -24,15 +23,15 @@ public class BootDecision {
         SpringApplication.run(BootDecision.class, args);
     }
 
-    @PostMapping("/c")
-    public ResponseEntity<Result> getResult() throws DecisionException {
+    @GetMapping("/g")
+    public Result<?> getResult() throws DecisionException {
 
         Context context = Context.getInstance()
                 .setDecisionType(DecisionTypeEnum.CREDIT.getValueEN())
                 .setProductName("aliJieBei");
 
         decisionTemplate.execute(context);
-        return ResponseEntity.ok(Result.success());
+        return Result.success();
     }
 
 }
