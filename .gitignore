@@ -4,10 +4,8 @@
 # 忽略
 .idea
 *.iml
-decision-core/target
-decision-boot/target
-decision-test/decision-core-test/target
-decision-test/decision-boot-test/target
+rtool-core/target
+rtool-boot/target
 
 # Log file
 *.log
