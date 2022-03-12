@@ -45,9 +45,7 @@ public class RuleTemplate extends RuleSupport implements Operations {
 
 	@Override
 	public void execute(Context context, Rule rule) {
-		if (Objects.isNull(rule)) {
-			return;
-		}
+		Objects.requireNonNull(rule);
 
 		if (rule instanceof CompositeRule) {
 			CompositeRule rules = CompositeRule.class.cast(rule);
@@ -72,6 +70,7 @@ public class RuleTemplate extends RuleSupport implements Operations {
 	protected void execute(Context context, Condition condition, Action action, Object ... args) {
 		if (Objects.isNull(context)) {
 			context = new Context();
+			context.setPass(DefaultValue.TRUE);
 		}
 
 		Objects.requireNonNull(condition);
@@ -80,14 +79,18 @@ public class RuleTemplate extends RuleSupport implements Operations {
 		logger.info("contextId: {}, 处理前condition: {}, action: {}", context.getContextId(),
 				condition.getName(), action.getName());
 		try {
-			if (condition.match(context)) {
-				action.dispose(context);
-			} else {
-				action.opposite(context);
+			if (context.getPass()) {
+				if (condition.match(context)) {
+					action.dispose(context);
+				} else {
+					action.opposite(context);
+				}
 			}
 		} catch (RuleException e) {
+			context.setPass(DefaultValue.FALSE);
 			this.reject(context, e);
 		} catch (Exception e) {
+			context.setPass(DefaultValue.FALSE);
 			throw e;
 		} finally {
 			this.clear();
