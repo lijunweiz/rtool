@@ -2,10 +2,7 @@ package com.lijunweiz.rtool.core;
 
 import com.lijunweiz.rtool.util.CollectionUtil;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * 复合规则表示所有规则的归处, 从此处可以获取所有已配置的规则
@@ -15,7 +12,7 @@ import java.util.stream.Collectors;
 public class CompositeRule extends AbstractRule implements Rule {
 
 	/** 规则是否已排序 */
-	private boolean sorted = false;
+	private boolean sorted = DefaultValue.FALSE;
 	
 	/** 规则集 */
 	private List<Rule> rules = new ArrayList<>();
@@ -30,20 +27,15 @@ public class CompositeRule extends AbstractRule implements Rule {
 	}
 
 	public CompositeRule(Rule ... rules) {
-		for (Rule rule : rules) {
-			this.rules.add(rule);
+		if (Objects.nonNull(rules)) {
+			for (Rule rule : rules) {
+				this.rules.add(rule);
+			}
 		}
 	}
 
 	/** 获取排序完成的规则集 */
 	public List<Rule> getRules() {
-		if(!getSorted()) {
-			List<Rule> collect = rules.stream().sorted(Comparator.comparing(Rule::order)).collect(Collectors.toList());
-			rules.clear();
-			rules.addAll(collect);
-			setSorted(true);
-		}
-		
 		return rules;
 	}
 
@@ -54,4 +46,21 @@ public class CompositeRule extends AbstractRule implements Rule {
 	public void setSorted(boolean sorted) {
 		this.sorted = sorted;
 	}
+
+	/**
+	 * 如果运行时添加了新的规则，则需要重新排序，那么此时需要重新对所有rule进行排序,
+	 * 需要先调用{@link #setSorted}将sorted置为false
+	 */
+	public synchronized void sortedRules() {
+		if (sorted) {
+			return;
+		}
+
+		if (CollectionUtil.isNullOrEmpty(rules)) {
+			return;
+		}
+
+		Collections.sort(rules, Comparator.comparing(Rule::order));
+	}
+
 }

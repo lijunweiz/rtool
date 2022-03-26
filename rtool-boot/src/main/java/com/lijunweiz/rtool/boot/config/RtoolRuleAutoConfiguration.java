@@ -1,6 +1,7 @@
 package com.lijunweiz.rtool.boot.config;
 
 import com.lijunweiz.rtool.core.CompositeRule;
+import com.lijunweiz.rtool.core.DefaultValue;
 import com.lijunweiz.rtool.core.Rule;
 import com.lijunweiz.rtool.core.RuleTemplate;
 import com.lijunweiz.rtool.util.CollectionUtil;
@@ -34,8 +35,9 @@ public class RtoolRuleAutoConfiguration {
                     .sorted(Comparator.comparing(Rule::order))
                     .collect(Collectors.toList());
             compositeRule.getRules().addAll(collect);
+            compositeRule.sortedRules();
+            compositeRule.setSorted(DefaultValue.TRUE);
         }
-        compositeRule.setSorted(true);
 
         return compositeRule;
     }
@@ -46,7 +48,7 @@ public class RtoolRuleAutoConfiguration {
     public RuleTemplate ruleTemplate(CompositeRule compositeRule) {
         RuleTemplate ruleTemplate = new RuleTemplate();
         ruleTemplate.setRule(compositeRule);
-
+        
         return ruleTemplate;
     }
 

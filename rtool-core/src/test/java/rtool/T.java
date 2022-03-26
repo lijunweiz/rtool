@@ -1,9 +1,6 @@
 package rtool;
 
-import com.lijunweiz.rtool.core.CompositeRule;
-import com.lijunweiz.rtool.core.Context;
-import com.lijunweiz.rtool.core.RuleException;
-import com.lijunweiz.rtool.core.RuleTemplate;
+import com.lijunweiz.rtool.core.*;
 
 public class T {
 
@@ -12,7 +9,11 @@ public class T {
 		CompositeRule compositeRule = new CompositeRule();
 		compositeRule.getRules().add(new BlacklistRule());
 		compositeRule.getRules().add(new VIPRule());
-		
+		if (compositeRule.getSorted()) {
+			compositeRule.setSorted(DefaultValue.FALSE);
+		}
+		compositeRule.sortedRules();
+
 		Context context = new Context();
 		
 		RuleTemplate ruleTemplate = new RuleTemplate();

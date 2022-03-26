@@ -167,10 +167,7 @@ public class RuleTemplate extends RuleSupport implements Operations {
 		@Override
 		public void reject(Context context, RuleTemplate template, RuleException e) {
 			throw new RuleException("contextId: " + context.getContextId() +
-					", 规则rule: " + (Objects.isNull(template.currentRule) ?
-									new AbstractRule(){}.getName() : template.currentRule.getName()
-									)
-					+ " 执行失败", e);
+					", 规则rule: " + template.currentRule.getName() + " 执行失败", e);
 		}
 	}
 }
