@@ -13,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,9 +31,11 @@ public class RtoolRuleAutoConfiguration {
             List<Rule> collect = beansOfType
                     .values()
                     .stream()
-                    .sorted(Comparator.comparing(Rule::order))
                     .collect(Collectors.toList());
             compositeRule.getRules().addAll(collect);
+            if (compositeRule.getSorted()) {
+                compositeRule.setSorted(DefaultValue.FALSE);
+            }
             compositeRule.sortedRules();
             compositeRule.setSorted(DefaultValue.TRUE);
         }
