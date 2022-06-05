@@ -20,10 +20,9 @@ public final class SecurityUtil {
 
     public static final String UTF_8 = StandardCharsets.UTF_8.displayName();
     /**
-     * 加密算法/加密模式/填充类型
-     * AES加密，ECB加密模式，PKCS5Padding填充
+     * 加密算法
      */
-    private static final String CIPHER_MODE_AES = "AES/ECB/PKCS5Padding";
+    private static final String AES = "AES";
     /**
      * 设置加密密码处理长度。
      */
@@ -37,7 +36,7 @@ public final class SecurityUtil {
      */
     public static byte[] encryptByAES(byte[] text, String password) {
         try {
-            Cipher cipher = getCipher(password, CIPHER_MODE_AES, Cipher.ENCRYPT_MODE);
+            Cipher cipher = getCipher(password, AES, Cipher.ENCRYPT_MODE);
             return cipher.doFinal(text);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             // ignore;
@@ -54,7 +53,7 @@ public final class SecurityUtil {
      */
     public static byte[] decryptByAES(byte[] text, String password) {
         try {
-            Cipher cipher = getCipher(password, CIPHER_MODE_AES, Cipher.DECRYPT_MODE);
+            Cipher cipher = getCipher(password, AES, Cipher.DECRYPT_MODE);
             return cipher.doFinal(text);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             // ignore;
