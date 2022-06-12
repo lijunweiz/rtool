@@ -1,6 +1,7 @@
 package rtool;
 
 import com.lijunweiz.rtool.core.*;
+import com.lijunweiz.rtool.util.JsonUtil;
 
 public class T {
 
@@ -19,7 +20,7 @@ public class T {
 		RuleTemplate ruleTemplate = new RuleTemplate();
 		ruleTemplate.execute(context, compositeRule);
 		
-		System.out.println(context);
+		System.out.println(JsonUtil.toJSONString(context));
 	}
 	
 }

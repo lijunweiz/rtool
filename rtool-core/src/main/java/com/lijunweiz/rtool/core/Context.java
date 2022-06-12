@@ -3,6 +3,7 @@ package com.lijunweiz.rtool.core;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 规则上下文 每一次的规则执行都会生成一个唯一的contextId
@@ -16,7 +17,7 @@ public class Context implements Serializable {
 	/**
 	 * 当前context的唯一标识符
 	 */
-	private long contextId;
+	private String contextId;
 
 	/**
 	 * 执行是否通过
@@ -24,16 +25,21 @@ public class Context implements Serializable {
 	private boolean pass;
 
 	/**
+	 * 提示信息
+	 */
+	private String message;
+
+	/**
 	 * 当前context在不同的{@link Rule}之间进行参数传递的媒介
 	 */
-	private Map<String, Object> data = new HashMap<>(6);
+	private Map<String, Object> data = new HashMap<>();
 	
 	public Context() {
-		this.contextId = System.currentTimeMillis();
+		this.contextId = UUID.randomUUID().toString().replace("-", "");
 		this.pass = DefaultValue.TRUE;
 	}
 	
-	public long getContextId() {
+	public String getContextId() {
 		return contextId;
 	}
 
@@ -41,8 +47,18 @@ public class Context implements Serializable {
 		return pass;
 	}
 
-	public void setPass(boolean pass) {
+	public Context setPass(boolean pass) {
 		this.pass = pass;
+		return this;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public Context setMessage(String message) {
+		this.message = message;
+		return this;
 	}
 
 	public Map<String, Object> getData() {
@@ -54,6 +70,7 @@ public class Context implements Serializable {
 		return "Context{" +
 				"contextId=" + contextId +
 				", pass=" + pass +
+				", message=" + message +
 				", data=" + data +
 				'}';
 	}

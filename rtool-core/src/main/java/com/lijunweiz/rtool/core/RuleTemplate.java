@@ -18,7 +18,7 @@ public class RuleTemplate extends RuleSupport implements Operations {
     /**
      * 拒绝策略
      */
-	private volatile RejectedPolicy rejectedPolicy;
+	private RejectedPolicy rejectedPolicy;
 
     /**
      * 默认的拒绝策略
@@ -28,7 +28,7 @@ public class RuleTemplate extends RuleSupport implements Operations {
     /**
      * 正在执行的rule
      */
-	private volatile Rule currentRule;
+	private Rule currentRule;
 
 	public RuleTemplate() {
 		this.rejectedPolicy = defaultRejectedPolicy;
@@ -47,6 +47,10 @@ public class RuleTemplate extends RuleSupport implements Operations {
 	public void execute(Context context, Rule rule) {
 		Objects.requireNonNull(rule);
 
+		if (!context.getPass()) {
+			return;
+		}
+
 		if (rule instanceof CompositeRule) {
 			CompositeRule rules = CompositeRule.class.cast(rule);
 			logger.info("发现复合规则: {}", rules.getName());
@@ -60,6 +64,8 @@ public class RuleTemplate extends RuleSupport implements Operations {
 			this.setCurrentRule(rule);
 			this.execute(context, rule.getCondition(), rule.getAction());
 		}
+
+		this.clear();
 	}
 
 	@Override
@@ -88,12 +94,8 @@ public class RuleTemplate extends RuleSupport implements Operations {
 			}
 		} catch (RuleException e) {
 			context.setPass(DefaultValue.FALSE);
-			this.reject(context, e);
 		} catch (Exception e) {
 			context.setPass(DefaultValue.FALSE);
-			throw e;
-		} finally {
-			this.clear();
 		}
 		logger.info("contextId: {}, 处理后condition: {}, action: {}", context.getContextId(),
 				condition.getName(), action.getName());

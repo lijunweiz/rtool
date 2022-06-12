@@ -1,41 +1,92 @@
 package com.lijunweiz.rtool.util;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.serializer.SerializeConfig;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.lijunweiz.rtool.core.RuleException;
+
+import java.util.Objects;
 
 /**
  * json 工具类
  */
 public final class JsonUtil {
 
+    public static final ObjectMapper DEFAULT_OBJECT_MAPPER = JsonMapper.builder().build();
+
+    /**
+     * 转换一个对象成json字符串
+     * @param object 待处理对象
+     * @return
+     */
     public static String toJSONString(Object object) {
-        return toJSONString(object, SerializerFeature.WriteMapNullValue);
+        Objects.requireNonNull(object);
+
+        try {
+            return DEFAULT_OBJECT_MAPPER.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuleException("obj to json string error ", e);
+        }
     }
 
-    public static String toJSONString(Object object, SerializerFeature... features) {
-        return JSONObject.toJSONString(object, features);
+    /**
+     * 转换一个对象成json字符串
+     * @param object 待处理对象
+     * @param first 对象转换成json字符串时的第一个转换特征
+     * @param others 对象转换成json字符串时的其他转换特征
+     * @return
+     */
+    public static String toJSONString(Object object, SerializationFeature first, SerializationFeature ... others) {
+        Objects.requireNonNull(object);
+        Objects.requireNonNull(first);
+
+        try {
+            if (Objects.isNull(others)) {
+                return DEFAULT_OBJECT_MAPPER.writer(first).writeValueAsString(object);
+            } else {
+                return DEFAULT_OBJECT_MAPPER.writer(first, others).writeValueAsString(object);
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuleException("obj to json string error ", e);
+        }
     }
 
-    public static Object toJson(Object object) {
-        return toJson(object, SerializeConfig.getGlobalInstance());
-    }
-
-    public static Object toJson(Object object, SerializeConfig serializeConfig) {
-        return JSONObject.toJSON(object, serializeConfig);
-    }
-
-    public static Object parse(String text) {
-        return JSONObject.parse(text);
-    }
-
+    /**
+     * 转换json字符串成一个指定类型的对象
+     * @param text 带转换字符串
+     * @param clazz
+     * @param <T> 指定的对象类型
+     * @return
+     */
     public static <T> T parseObject(String text, Class<T> clazz) {
-        return JSONObject.parseObject(text, clazz);
+        Objects.requireNonNull(text);
+        Objects.requireNonNull(clazz);
+
+        try {
+            return DEFAULT_OBJECT_MAPPER.readValue(text, clazz);
+        } catch (JsonProcessingException e) {
+            throw new RuleException("json string to obj error ", e);
+        }
     }
 
+    /**
+     * 转换json字符串成一个指定类型的对象
+     * @param text 带转换字符串
+     * @param typeReference 通过类型应用，指定转换集合类型
+     * @param <T> 指定的对象类型
+     * @return
+     */
     public static <T> T parseObject(String text, TypeReference<T> typeReference) {
-        return JSONObject.parseObject(text, typeReference);
+        Objects.requireNonNull(text);
+        Objects.requireNonNull(typeReference);
+
+        try {
+            return DEFAULT_OBJECT_MAPPER.readValue(text, typeReference);
+        } catch (JsonProcessingException e) {
+            throw new RuleException("json string to obj error ", e);
+        }
     }
 
 }
