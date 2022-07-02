@@ -9,7 +9,7 @@ public final class DefaultValue {
         throw new IllegalAccessException();
     }
 
-    public static final String EMPTY = "";
+    public static final String EMPTY_STRING = "";
     public static final boolean TRUE = true;
     public static final boolean FALSE = false;
     public static final Integer INT_200 = 200;//成功

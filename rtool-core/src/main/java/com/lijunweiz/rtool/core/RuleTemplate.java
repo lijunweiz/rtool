@@ -91,11 +91,17 @@ public class RuleTemplate extends RuleSupport implements Operations {
 				} else {
 					action.opposite(context);
 				}
+			} else {
+				return;
 			}
 		} catch (RuleException e) {
 			context.setPass(DefaultValue.FALSE);
+			context.setMessage("规则处理异常, " + e.getMessage());
+			logger.error("规则处理异常", e);
 		} catch (Exception e) {
 			context.setPass(DefaultValue.FALSE);
+			context.setMessage("未知异常, " + e.getMessage());
+			logger.error("规则处理出现未知异常", e);
 		}
 		logger.info("contextId: {}, 处理后condition: {}, action: {}", context.getContextId(),
 				condition.getName(), action.getName());

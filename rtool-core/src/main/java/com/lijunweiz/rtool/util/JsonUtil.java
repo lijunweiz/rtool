@@ -22,8 +22,6 @@ public final class JsonUtil {
      * @return
      */
     public static String toJSONString(Object object) {
-        Objects.requireNonNull(object);
-
         try {
             return DEFAULT_OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -39,7 +37,6 @@ public final class JsonUtil {
      * @return
      */
     public static String toJSONString(Object object, SerializationFeature first, SerializationFeature ... others) {
-        Objects.requireNonNull(object);
         Objects.requireNonNull(first);
 
         try {

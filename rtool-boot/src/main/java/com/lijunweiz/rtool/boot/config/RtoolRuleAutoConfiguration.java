@@ -13,9 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @ConditionalOnProperty(name = "rtool.rule.enable", matchIfMissing = true)
 @Configuration
@@ -28,11 +26,7 @@ public class RtoolRuleAutoConfiguration {
         CompositeRule compositeRule = new CompositeRule();
         Map<String, Rule> beansOfType = applicationContext.getBeansOfType(Rule.class);
         if (CollectionUtil.notNullAndEmpty(beansOfType)) {
-            List<Rule> collect = beansOfType
-                    .values()
-                    .stream()
-                    .collect(Collectors.toList());
-            compositeRule.getRules().addAll(collect);
+            compositeRule.getRules().addAll(beansOfType.values());
             if (compositeRule.getSorted()) {
                 compositeRule.setSorted(DefaultValue.FALSE);
             }
