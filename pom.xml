@@ -47,6 +47,7 @@
         <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
         <logback.version>1.2.10</logback.version>
         <jackson.version>2.13.3</jackson.version>
+        <junit.version>4.13</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -92,6 +93,12 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
