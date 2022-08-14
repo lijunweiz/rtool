@@ -18,6 +18,10 @@ import java.util.Random;
  */
 public final class SecurityUtil {
 
+    private SecurityUtil() {
+        throw new UnsupportedOperationException();
+    }
+
     public static final String UTF_8 = StandardCharsets.UTF_8.displayName();
     /**
      * 加密算法
@@ -27,6 +31,9 @@ public final class SecurityUtil {
      * 设置加密密码处理长度。
      */
     private static final int PWD_SIZE = 16;
+
+    // SecureRandom.getInstanceStrong()
+    private static final Random RANDOM = new Random();
 
     /**
      * 加密，返回字节数组
@@ -192,9 +199,9 @@ public final class SecurityUtil {
         int min = 32;
         int max = 126;
         StringBuilder sb = new StringBuilder(length);
-        Random random = new Random();
+
         for (int i = 0; i < length; i++) {
-            int ch = min + random.nextInt(max - min);
+            int ch = min + RANDOM.nextInt(max - min);
             sb.append((char) ch);
         }
 

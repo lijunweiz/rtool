@@ -10,10 +10,10 @@ public final class IOUtil {
     /**
      * 读取文件缓冲区大小
      */
-    private static int DEFAULT_BUFFER_SIZE = 8192;
+    private static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    private IOUtil() throws IllegalAccessException {
-        throw new IllegalAccessException();
+    private IOUtil() {
+        throw new UnsupportedOperationException();
     }
 
     public static void close(InputStream in) throws IOException {
@@ -61,11 +61,8 @@ public final class IOUtil {
     public static void copy(InputStream source, OutputStream destination) throws IOException {
         Objects.requireNonNull(source, "源文件流不能为null");
         Objects.requireNonNull(destination, "目的文件流不能为null");
-        BufferedInputStream in = null;
-        BufferedOutputStream out = null;
-        try {
-            in = new BufferedInputStream(source, DEFAULT_BUFFER_SIZE);
-            out = new BufferedOutputStream(destination, DEFAULT_BUFFER_SIZE);
+        try (BufferedInputStream in = new BufferedInputStream(source, DEFAULT_BUFFER_SIZE);
+             BufferedOutputStream out = new BufferedOutputStream(destination, DEFAULT_BUFFER_SIZE)) {
             int read = in.read();
             while (read != -1) {
                 out.write(read);
@@ -75,8 +72,8 @@ public final class IOUtil {
         } catch (IOException e) {
             throw e;
         } finally {
-            close(in);
-            close(out);
+            close(source);
+            close(destination);
         }
     }
 

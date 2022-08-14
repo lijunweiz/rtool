@@ -18,7 +18,7 @@ public interface Action {
 	 * @param context 当前规则流携带或者要返回的数据
 	 */
  	default void opposite(Context context) {
- 		return;
+
 	}
 
 	/**

@@ -129,11 +129,11 @@ public class Result<T> {
      * @return
      */
     private static <T> Result<T> both(int code, boolean success, String msg, T data) {
-        return new Result<T>(code, success, msg, data);
+        return new Result<>(code, success, msg, data);
     }
 
     public static <T> Result<T> getInstance() {
-        return new Result<T>();
+        return new Result<>();
     }
 
     public Optional<Result<T>> optional() {

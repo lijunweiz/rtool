@@ -14,6 +14,10 @@ import java.util.Objects;
  */
 public final class JsonUtil {
 
+    private JsonUtil() {
+        throw new UnsupportedOperationException();
+    }
+
     public static final ObjectMapper DEFAULT_OBJECT_MAPPER = JsonMapper.builder().build();
 
     /**

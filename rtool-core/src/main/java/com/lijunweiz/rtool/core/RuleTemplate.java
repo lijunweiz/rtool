@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class RuleTemplate extends RuleSupport implements Operations {
 	
-	protected Logger logger = LoggerFactory.getLogger(RuleTemplate.class);
+	protected final Logger logger = LoggerFactory.getLogger(RuleTemplate.class);
 
     /**
      * 拒绝策略
@@ -23,7 +23,7 @@ public class RuleTemplate extends RuleSupport implements Operations {
     /**
      * 默认的拒绝策略
      */
-	private final static RejectedPolicy defaultRejectedPolicy = new ReportPolicy();
+	private static final RejectedPolicy defaultRejectedPolicy = new ReportPolicy();
 
 	public RuleTemplate() {
 		this.rejectedPolicy = defaultRejectedPolicy;
@@ -124,8 +124,11 @@ public class RuleTemplate extends RuleSupport implements Operations {
 	 */
 	public static class MarkPolicy implements RejectedPolicy {
 
-		Logger logger = LoggerFactory.getLogger(RuleTemplate.class);
+		final Logger logger = LoggerFactory.getLogger(MarkPolicy.class);
 
+		/**
+		 * 标记异常，只是输出
+		 */
 		public MarkPolicy() {
 		}
 
@@ -145,6 +148,10 @@ public class RuleTemplate extends RuleSupport implements Operations {
 	 * 抛出某个规则的异常信息
 	 */
 	public static class ReportPolicy implements RejectedPolicy {
+
+		/**
+		 * 报告异常，通知调用方
+		 */
 		public ReportPolicy() {
 		}
 

@@ -17,7 +17,7 @@ public class Context implements Serializable {
 	/**
 	 * 当前context的唯一标识符
 	 */
-	private String contextId;
+	private final String contextId;
 
 	/**
 	 * 执行是否通过
@@ -32,7 +32,7 @@ public class Context implements Serializable {
 	/**
 	 * 当前context在不同的{@link Rule}之间进行参数传递的媒介
 	 */
-	private Map<String, Object> data = new HashMap<>();
+	private final Map<String, Object> data = new HashMap<>();
 	
 	public Context() {
 		this.contextId = UUID.randomUUID().toString().replace("-", "");

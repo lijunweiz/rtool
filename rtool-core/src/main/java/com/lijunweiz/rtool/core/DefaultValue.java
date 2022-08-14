@@ -5,8 +5,8 @@ package com.lijunweiz.rtool.core;
  */
 public final class DefaultValue {
 
-    private DefaultValue() throws IllegalAccessException {
-        throw new IllegalAccessException();
+    private DefaultValue() {
+        throw new UnsupportedOperationException();
     }
 
     public static final String EMPTY_STRING = "";

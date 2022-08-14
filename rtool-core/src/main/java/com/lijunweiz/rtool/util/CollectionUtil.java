@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class CollectionUtil {
 
-    private CollectionUtil() throws IllegalAccessException {
-        throw new IllegalAccessException();
+    private CollectionUtil() {
+        throw new UnsupportedOperationException();
     }
 
     public static <T> boolean isNullOrEmpty(Collection<T> collection) {

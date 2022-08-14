@@ -6,6 +6,10 @@ import java.util.Objects;
 
 public final class StringUtil {
 
+    private StringUtil() {
+        throw new UnsupportedOperationException();
+    }
+
     /** 大写转为小写cache */
     private final static Map<Character, Character> UPPER_TO_LOWER = new HashMap<>();
 
