@@ -1,6 +1,7 @@
 package com.lijunweiz.rtool.util;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -83,7 +84,16 @@ public final class IOUtil {
      * @return
      */
     public static List<String> readFile(String file) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
+        return readFile(file, Charset.defaultCharset());
+    }
+
+    /**
+     * 读取文件成一个列表，其元素为string
+     * @param file 文件路径
+     * @return
+     */
+    public static List<String> readFile(String file, Charset charset) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
             return reader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             throw e;
@@ -100,6 +110,8 @@ public final class IOUtil {
             return reader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             throw e;
+        } finally {
+            close(in);
         }
     }
 
