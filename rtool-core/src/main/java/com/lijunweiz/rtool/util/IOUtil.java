@@ -2,6 +2,7 @@ package com.lijunweiz.rtool.util;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -37,8 +38,6 @@ public final class IOUtil {
      * @param destination 拷贝的目的文件路径
      */
     public static void copy(String source, String destination) throws IOException {
-        Objects.requireNonNull(source, "源文件路径不能为null");
-        Objects.requireNonNull(destination, "目的文件路径不能为null");
         copy(new FileInputStream(source), new FileOutputStream(destination));
     }
 
@@ -48,9 +47,6 @@ public final class IOUtil {
      * @param destination 拷贝的目的文件
      */
     public static void copy(File source, File destination) throws IOException {
-        Objects.requireNonNull(source, "源文件不能为null");
-        Objects.requireNonNull(destination, "目的文件不能为null");
-
         copy(new FileInputStream(source), new FileOutputStream(destination));
     }
 
@@ -60,8 +56,6 @@ public final class IOUtil {
      * @param destination out流
      */
     public static void copy(InputStream source, OutputStream destination) throws IOException {
-        Objects.requireNonNull(source, "源文件流不能为null");
-        Objects.requireNonNull(destination, "目的文件流不能为null");
         try (BufferedInputStream in = new BufferedInputStream(source, DEFAULT_BUFFER_SIZE);
              BufferedOutputStream out = new BufferedOutputStream(destination, DEFAULT_BUFFER_SIZE)) {
             int read = in.read();
@@ -72,9 +66,6 @@ public final class IOUtil {
             out.flush();
         } catch (IOException e) {
             throw e;
-        } finally {
-            close(source);
-            close(destination);
         }
     }
 
@@ -110,9 +101,57 @@ public final class IOUtil {
             return reader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             throw e;
-        } finally {
-            close(in);
         }
+    }
+
+    /**
+     * 读取流成一个字节数组
+     * @param in 输入流
+     * @return
+     */
+    public static byte[] readByte(InputStream in) throws IOException {
+        if (Objects.isNull(in)) {
+            return null;
+        }
+
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        int read = in.read(buffer);
+        while (read != -1) {
+            result.write(buffer);
+            read = in.read(buffer);
+        }
+        result.flush();
+
+        return result.toByteArray();
+    }
+
+    /**
+     * 读取流成一个字节数组
+     * @param in 输入流
+     * @return
+     */
+    public static String readString(InputStream in) throws IOException {
+        if (Objects.isNull(in)) {
+            return null;
+        }
+
+        byte[] bytes = readByte(in);
+        return new String(bytes, StandardCharsets.UTF_8).trim();
+    }
+
+    /**
+     * 读取流成一个字节数组
+     * @param in 输入流
+     * @return
+     */
+    public static String readString(InputStream in, Charset charset) throws IOException {
+        if (Objects.isNull(in)) {
+            return null;
+        }
+
+        byte[] bytes = readByte(in);
+        return new String(bytes, charset).trim();
     }
 
 
