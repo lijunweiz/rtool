@@ -3,6 +3,7 @@ package com.lijunweiz.rtool.util;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -56,6 +57,9 @@ public final class IOUtil {
      * @param destination out流
      */
     public static void copy(InputStream source, OutputStream destination) throws IOException {
+        Objects.requireNonNull(source, "source can't be null");
+        Objects.requireNonNull(destination, "destination can't be null");
+
         try (BufferedInputStream in = new BufferedInputStream(source, DEFAULT_BUFFER_SIZE);
              BufferedOutputStream out = new BufferedOutputStream(destination, DEFAULT_BUFFER_SIZE)) {
             int read = in.read();
@@ -84,6 +88,9 @@ public final class IOUtil {
      * @return
      */
     public static List<String> readFile(String file, Charset charset) throws IOException {
+        Objects.requireNonNull(file, "file can't be null");
+        Objects.requireNonNull(charset, "charset can't be null");
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
             return reader.lines().collect(Collectors.toList());
         } catch (IOException e) {
@@ -96,12 +103,13 @@ public final class IOUtil {
      * @param in 输入流
      * @return
      */
-    public static List<String> readFile(InputStream in) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
-            return reader.lines().collect(Collectors.toList());
-        } catch (IOException e) {
-            throw e;
+    public static List<String> readFile(InputStream in) {
+        if (Objects.isNull(in)) {
+            return Collections.emptyList();
         }
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        return reader.lines().collect(Collectors.toList());
     }
 
     /**
@@ -122,12 +130,13 @@ public final class IOUtil {
             read = in.read(buffer);
         }
         result.flush();
+        result.close();
 
         return result.toByteArray();
     }
 
     /**
-     * 读取流成一个字节数组
+     * 读取输入流成为一个字符串 默认编码{@link StandardCharsets#UTF_8}
      * @param in 输入流
      * @return
      */
@@ -141,8 +150,9 @@ public final class IOUtil {
     }
 
     /**
-     * 读取流成一个字节数组
+     * 读取输入流成为一个字符串
      * @param in 输入流
+     * @param charset 指定的字符串编码
      * @return
      */
     public static String readString(InputStream in, Charset charset) throws IOException {
@@ -153,6 +163,5 @@ public final class IOUtil {
         byte[] bytes = readByte(in);
         return new String(bytes, charset).trim();
     }
-
 
 }

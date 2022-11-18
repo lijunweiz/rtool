@@ -1,9 +1,10 @@
 package com.lijunweiz.rtool.core;
 
+import com.lijunweiz.rtool.util.IDUtil;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 规则上下文 每一次的规则执行都会生成一个唯一的contextId
@@ -35,7 +36,7 @@ public class Context implements Serializable {
 	private final Map<String, Object> data = new HashMap<>();
 	
 	public Context() {
-		this.contextId = UUID.randomUUID().toString().replace("-", "");
+		this.contextId = IDUtil.uuid();
 		this.pass = DefaultValue.TRUE;
 	}
 	

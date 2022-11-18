@@ -40,6 +40,7 @@ public class RuleTemplate extends RuleSupport implements Operations {
 
 	@Override
 	public void execute(Context context, Rule rule) {
+		Objects.requireNonNull(context);
 		Objects.requireNonNull(rule);
 
 		if (!context.getPass()) {
