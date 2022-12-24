@@ -1,11 +1,15 @@
-package com.lijunweiz.rtool.test;
+package com.lijunweiz.rtool;
 
 import com.lijunweiz.rtool.util.IOUtil;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
 
+@RunWith(MockitoJUnitRunner.class)
 public class IOUtilTest {
 
     @Test
