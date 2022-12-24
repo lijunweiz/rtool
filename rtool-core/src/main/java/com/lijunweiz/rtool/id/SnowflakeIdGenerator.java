@@ -16,7 +16,7 @@ public class SnowflakeIdGenerator implements IdGenerator<Long> {
     /**
      * 每一部分占用的位数
      */
-    private final static long SEQUENCE_BIT = 10; // 序列号占用的位数
+    private final static long SEQUENCE_BIT = 12; // 序列号占用的位数
     private final static long MACHINE_BIT = 5; // 机器标识占用的位数,5
     private final static long DATACENTER_BIT = 5;// 数据中心占用的位数5
 
@@ -36,10 +36,10 @@ public class SnowflakeIdGenerator implements IdGenerator<Long> {
 
     private long datacenterId; // 数据中心
     private long machineId; // 机器标识
-    private long sequence = 0L; // 序列号
-    private long lastStamp = -1L;// 上一次时间戳
+    private volatile long sequence = 0L; // 序列号
+    private volatile long lastStamp = -1L;// 上一次时间戳
 
-    private static long NOW = System.currentTimeMillis();
+    private static volatile long NOW = System.currentTimeMillis();
 
     static {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(r -> {
@@ -49,7 +49,7 @@ public class SnowflakeIdGenerator implements IdGenerator<Long> {
             return thread;
         });
         AtomicLong t = new AtomicLong(NOW);
-        executor.scheduleWithFixedDelay(() -> NOW = t.incrementAndGet(), 1000l, 1000l, TimeUnit.MILLISECONDS);
+        executor.scheduleWithFixedDelay(() -> NOW = t.incrementAndGet(), 1000l, 1000l, TimeUnit.MICROSECONDS);
     }
 
     public SnowflakeIdGenerator(long datacenterId, long machineId) {
