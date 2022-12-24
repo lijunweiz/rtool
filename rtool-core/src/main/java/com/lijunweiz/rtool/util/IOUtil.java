@@ -119,7 +119,7 @@ public final class IOUtil {
      */
     public static byte[] readByte(InputStream in) throws IOException {
         if (Objects.isNull(in)) {
-            return null;
+            return new byte[0];
         }
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
@@ -142,11 +142,11 @@ public final class IOUtil {
      */
     public static String readString(InputStream in) throws IOException {
         if (Objects.isNull(in)) {
-            return null;
+            return StringUtil.EMPTY;
         }
 
         byte[] bytes = readByte(in);
-        return new String(bytes, StandardCharsets.UTF_8).trim();
+        return bytes.length == 0 ? StringUtil.EMPTY : new String(bytes, StandardCharsets.UTF_8).trim();
     }
 
     /**
@@ -157,11 +157,11 @@ public final class IOUtil {
      */
     public static String readString(InputStream in, Charset charset) throws IOException {
         if (Objects.isNull(in)) {
-            return null;
+            return StringUtil.EMPTY;
         }
 
         byte[] bytes = readByte(in);
-        return new String(bytes, charset).trim();
+        return bytes.length == 0 ? StringUtil.EMPTY : new String(bytes, charset).trim();
     }
 
 }

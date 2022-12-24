@@ -12,12 +12,13 @@ public class AviatorEngine extends AbstractEngine implements Engine {
 
     private static final AviatorEvaluatorInstance INSTANCE = AviatorEvaluator.getInstance();
 
-    public Class<?> getEngineClass() {
-        return AviatorEngine.class;
-    }
-
     private AviatorEvaluatorInstance getInstance() {
         return INSTANCE;
+    }
+
+    @Override
+    public Class<?> getEngineClass() {
+        return AviatorEngine.class;
     }
 
     @Override
