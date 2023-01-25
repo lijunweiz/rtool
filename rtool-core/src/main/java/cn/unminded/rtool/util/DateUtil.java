@@ -52,6 +52,10 @@ public final class DateUtil {
         return YMD_HMS_3S_FORMATTER.format(localDateTime);
     }
 
+    public static String ymdHms3S() {
+        return YMD_HMS_3S_FORMATTER.format(now());
+    }
+
     public static String format(LocalDateTime localDateTime, DateTimeFormatter dateTimeFormatter) {
         return dateTimeFormatter.format(localDateTime);
     }

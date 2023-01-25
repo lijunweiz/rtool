@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.util.Objects;
 
@@ -18,7 +19,14 @@ public final class JSONUtil {
         throw new UnsupportedOperationException();
     }
 
-    public static final ObjectMapper DEFAULT_OBJECT_MAPPER = JsonMapper.builder().build();
+    public static final ObjectMapper DEFAULT_OBJECT_MAPPER;
+
+    static {
+        DEFAULT_OBJECT_MAPPER = JsonMapper
+                .builder()
+                .addModules(new JavaTimeModule())
+                .build();
+    }
 
     /**
      * 转换一个对象成json字符串
