@@ -6,6 +6,8 @@ public class TokenCacheConfig {
 
     private int initCheckDelaySeconds = 30;
 
+    private int checkDelaySeconds = 300;
+
     public int getTokenExpireSeconds() {
         return tokenExpireSeconds;
     }
@@ -21,6 +23,15 @@ public class TokenCacheConfig {
 
     public TokenCacheConfig setInitCheckDelaySeconds(int initCheckDelaySeconds) {
         this.initCheckDelaySeconds = initCheckDelaySeconds;
+        return this;
+    }
+
+    public int getCheckDelaySeconds() {
+        return checkDelaySeconds;
+    }
+
+    public TokenCacheConfig setCheckDelaySeconds(int checkDelaySeconds) {
+        this.checkDelaySeconds = checkDelaySeconds;
         return this;
     }
 }

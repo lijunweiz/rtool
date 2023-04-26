@@ -98,4 +98,22 @@ public final class JSONUtil {
         }
     }
 
+    /**
+     * 转换一个对象成一个指定类型的对象
+     * @param obj 一个对象
+     * @param clazz
+     * @param <T> 指定的对象类型
+     * @return
+     */
+    public static <T> T convert(Object obj, Class<T> clazz) {
+        Objects.requireNonNull(obj);
+        Objects.requireNonNull(clazz);
+
+        try {
+            return DEFAULT_OBJECT_MAPPER.readValue(toJSONString(obj), clazz);
+        } catch (JsonProcessingException e) {
+            throw new RuleException("json string to obj error ", e);
+        }
+    }
+
 }

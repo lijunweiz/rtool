@@ -19,17 +19,21 @@ public final class IOUtil {
         throw new UnsupportedOperationException();
     }
 
-    public static void close(InputStream in) throws IOException {
+    public static void close(InputStream in) {
         closeable(in);
     }
 
-    public static void close(OutputStream out) throws IOException {
+    public static void close(OutputStream out) {
         closeable(out);
     }
 
-    private static void closeable(Closeable closeable) throws IOException {
+    private static void closeable(Closeable closeable) {
         if (Objects.nonNull(closeable)) {
-            closeable.close();
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                //ingore
+            }
         }
     }
 
@@ -62,10 +66,11 @@ public final class IOUtil {
 
         try (BufferedInputStream in = new BufferedInputStream(source, DEFAULT_BUFFER_SIZE);
              BufferedOutputStream out = new BufferedOutputStream(destination, DEFAULT_BUFFER_SIZE)) {
-            int read = in.read();
-            while (read != -1) {
-                out.write(read);
-                read = in.read();
+            byte[] b = new byte[DEFAULT_BUFFER_SIZE];
+            int n = in.read(b);
+            while (n != -1) {
+                out.write(b, 0, n);
+                n = in.read(b);
             }
             out.flush();
         } catch (IOException e) {
@@ -124,10 +129,10 @@ public final class IOUtil {
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-        int read = in.read(buffer);
-        while (read != -1) {
-            result.write(buffer);
-            read = in.read(buffer);
+        int n = in.read(buffer);
+        while (n != -1) {
+            result.write(buffer, 0, n);
+            n = in.read(buffer);
         }
         result.flush();
         result.close();

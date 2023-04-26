@@ -9,45 +9,58 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * token缓存
+ * token缓
  */
 public class TokenCache {
-    private static final Logger logger = LoggerFactory.getLogger(TokenCache.class);
+    private final Logger logger = LoggerFactory.getLogger(TokenCache.class);
 
     /**
      * token 缓存
      */
-    private static final Map<String, Long> CACHE_TOKEN = new ConcurrentHashMap<>();
+    private final Map<String, Long> cacheToken = new ConcurrentHashMap<>();
 
-    private static long DEFAULT_EXPIRE_SECONDS = 300;
+    private static final long DEFAULT_EXPIRE_SECONDS = 300;
 
-    private TokenCache() {
-        throw new UnsupportedOperationException();
+    public TokenCache() {
+        this.initTokenCache();
+    }
+
+    public TokenCache(TokenCacheConfig config) {
+        this.initTokenCache(config);
     }
 
     /**
      * 使用默认配置初始化token缓存
      */
-    public static void initTokenCache() {
-        initTokenCache(new TokenCacheConfig());
+    public void initTokenCache() {
+        this.initTokenCache(new TokenCacheConfig());
     }
 
     /**
      * 初始化token缓存
      * @param cacheConfig 用户配置
      */
-    public static void initTokenCache(TokenCacheConfig cacheConfig) {
+    public void initTokenCache(TokenCacheConfig cacheConfig) {
         long delaySeconds = cacheConfig.getInitCheckDelaySeconds() > 0 ? cacheConfig.getInitCheckDelaySeconds() : DEFAULT_EXPIRE_SECONDS;
         long tokenExpireSeconds = cacheConfig.getTokenExpireSeconds() > 0 ? cacheConfig.getTokenExpireSeconds() : DEFAULT_EXPIRE_SECONDS;
+        long checkDelaySeconds = cacheConfig.getCheckDelaySeconds() > 0 ? cacheConfig.getInitCheckDelaySeconds() : DEFAULT_EXPIRE_SECONDS;
         long expireMillis = tokenExpireSeconds * 1000;
 
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread t = new Thread(r);
+            if (!t.isDaemon()) {
+                t.setDaemon(true);
+            }
+            t.setName("token-clear");
+            return t;
+        });
         executor.scheduleWithFixedDelay(
                 () -> clearExpireToken(expireMillis),
                 delaySeconds,
-                tokenExpireSeconds,
+                checkDelaySeconds,
                 TimeUnit.SECONDS
         );
     }
@@ -57,7 +70,7 @@ public class TokenCache {
      * @param size 获取token
      * @return
      */
-    public static List<String> tokenList(Integer size) {
+    public List<String> tokenList(Integer size) {
         Objects.requireNonNull(size);
         if (size <= 0) {
             return Collections.emptyList();
@@ -67,7 +80,6 @@ public class TokenCache {
         for (int i = 0; i < size; i++) {
             String token = token();
             tokens.add(token);
-            add(token);
         }
         return tokens;
     }
@@ -76,52 +88,60 @@ public class TokenCache {
      * 生成token
      * @return
      */
-    public static String token() {
-        return IDUtil.uuid();
+    public String token() {
+        String token = IDUtil.uuid();
+        add(token);
+        return token;
     }
 
-    public static boolean containsKey(String token) {
-        return CACHE_TOKEN.containsKey(token);
+    public boolean contains(String token) {
+        return cacheToken.containsKey(token);
     }
 
     /**
      * 向容器中添加token
      * @param token
      */
-    public static void add(String token) {
+    public void add(String token) {
         Objects.requireNonNull(token);
-        CACHE_TOKEN.put(token, System.currentTimeMillis());
+        cacheToken.put(token, System.currentTimeMillis());
     }
 
     /**
      * 从容器中移除token
      * @param token
      */
-    public static void remove(String token) {
+    public void remove(String token) {
         Objects.requireNonNull(token);
-        CACHE_TOKEN.remove(token);
+        cacheToken.remove(token);
+    }
+
+    public int size() {
+        return cacheToken.size();
     }
 
     /**
      * 清除无效的token
      */
-    private static void clearExpireToken(long expireMillis) {
-        if (CACHE_TOKEN.isEmpty()) {
+    private void clearExpireToken(long expireMillis) {
+        if (cacheToken.isEmpty()) {
             return;
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("开始清理无效token, 当前token数量: {}", CACHE_TOKEN.size());
+            logger.debug("开始清理无效token, 当前token数量: {}", cacheToken.size());
         }
 
         long now = System.currentTimeMillis();
 
-        CACHE_TOKEN.forEach((token, time) -> {
+        AtomicInteger count = new AtomicInteger();
+        cacheToken.forEach((token, time) -> {
             if (now - time >= expireMillis) {
-                CACHE_TOKEN.remove(token);
+                cacheToken.remove(token);
+                count.getAndIncrement();
             }
         });
         if (logger.isDebugEnabled()) {
-            logger.debug("清理无效token完成, 当前token数量: {}", CACHE_TOKEN.size());
+            logger.debug("清理无效token数量{}, 当前token数量: {}", count.get(), cacheToken.size());
         }
     }
 }
