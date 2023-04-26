@@ -22,7 +22,7 @@ public class TokenCache {
      */
     private final Map<String, Long> cacheToken = new ConcurrentHashMap<>();
 
-    private static final long DEFAULT_EXPIRE_SECONDS = 300;
+    private static final long DEFAULT_EXPIRE_SECONDS = 30;
 
     public TokenCache() {
         this.initTokenCache();
@@ -44,9 +44,9 @@ public class TokenCache {
      * @param cacheConfig 用户配置
      */
     public void initTokenCache(TokenCacheConfig cacheConfig) {
-        long delaySeconds = cacheConfig.getInitCheckDelaySeconds() > 0 ? cacheConfig.getInitCheckDelaySeconds() : DEFAULT_EXPIRE_SECONDS;
-        long tokenExpireSeconds = cacheConfig.getTokenExpireSeconds() > 0 ? cacheConfig.getTokenExpireSeconds() : DEFAULT_EXPIRE_SECONDS;
-        long checkDelaySeconds = cacheConfig.getCheckDelaySeconds() > 0 ? cacheConfig.getInitCheckDelaySeconds() : DEFAULT_EXPIRE_SECONDS;
+        long delaySeconds = Math.max(cacheConfig.getInitCheckDelaySeconds(), DEFAULT_EXPIRE_SECONDS);
+        long tokenExpireSeconds = Math.max(cacheConfig.getTokenExpireSeconds(), DEFAULT_EXPIRE_SECONDS);
+        long checkDelaySeconds = Math.max(cacheConfig.getInitCheckDelaySeconds(), DEFAULT_EXPIRE_SECONDS);
         long expireMillis = tokenExpireSeconds * 1000;
 
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(r -> {
