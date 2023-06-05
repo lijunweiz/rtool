@@ -9,14 +9,14 @@ import java.io.File;
 import java.io.IOException;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IOUtilTest {
+public class IOUtilsTest {
 
     @Test
     public void copyTest() throws IOException {
-        String path = IOUtilTest.class.getResource("").getPath();
-        String src = path + "/IOUtilTest.class";
-        String des = path + "/IOUtilTest.class2";
-        IOUtil.copy(src, des);
+        String path = IOUtilsTest.class.getResource("").getPath();
+        String src = path + "/IOUtilsTest.class";
+        String des = path + "/IOUtilsTest.class2";
+        IOUtils.copy(src, des);
         File file = new File(des);
         Assert.assertTrue(file.exists());
         if (file.exists()) {

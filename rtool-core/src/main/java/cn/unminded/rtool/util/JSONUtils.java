@@ -13,9 +13,9 @@ import java.util.Objects;
 /**
  * json 工具类
  */
-public final class JSONUtil {
+public final class JSONUtils {
 
-    private JSONUtil() {
+    private JSONUtils() {
         throw new UnsupportedOperationException();
     }
 

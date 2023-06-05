@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
-public final class DateUtil {
+public final class DateUtils {
 
-    private DateUtil() {
+    private DateUtils() {
         throw new UnsupportedOperationException();
     }
 

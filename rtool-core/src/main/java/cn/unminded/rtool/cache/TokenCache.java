@@ -1,6 +1,6 @@
 package cn.unminded.rtool.cache;
 
-import cn.unminded.rtool.util.IDUtil;
+import cn.unminded.rtool.util.IDUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,7 +89,7 @@ public class TokenCache {
      * @return
      */
     public String token() {
-        String token = IDUtil.uuid();
+        String token = IDUtils.uuid();
         add(token);
         return token;
     }

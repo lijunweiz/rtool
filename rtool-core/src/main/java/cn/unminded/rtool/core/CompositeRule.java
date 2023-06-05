@@ -1,6 +1,6 @@
 package cn.unminded.rtool.core;
 
-import cn.unminded.rtool.util.CollectionUtil;
+import cn.unminded.rtool.util.CollectionUtils;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public class CompositeRule extends AbstractRule implements Rule {
 	}
 
 	public CompositeRule(List<Rule> rules) {
-		if (CollectionUtil.notNullAndEmpty(rules)) {
+		if (CollectionUtils.isNotEmpty(rules)) {
 			this.rules.addAll(rules);
 		}
 	}
@@ -56,7 +56,7 @@ public class CompositeRule extends AbstractRule implements Rule {
 			return;
 		}
 
-		if (CollectionUtil.isNullOrEmpty(rules)) {
+		if (CollectionUtils.isEmpty(rules)) {
 			return;
 		}
 

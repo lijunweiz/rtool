@@ -1,6 +1,6 @@
 package cn.unminded.rtool.core;
 
-import cn.unminded.rtool.util.JSONUtil;
+import cn.unminded.rtool.util.JSONUtils;
 
 import java.util.Optional;
 
@@ -141,7 +141,7 @@ public class Result<T> {
     }
 
     public String toJSONString() {
-        return JSONUtil.toJSONString(this);
+        return JSONUtils.toJSONString(this);
     }
 
     public int getCode() {

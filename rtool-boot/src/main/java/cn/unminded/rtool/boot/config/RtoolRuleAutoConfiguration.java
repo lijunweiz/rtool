@@ -4,7 +4,7 @@ import cn.unminded.rtool.core.CompositeRule;
 import cn.unminded.rtool.core.DefaultValue;
 import cn.unminded.rtool.core.Rule;
 import cn.unminded.rtool.core.RuleTemplate;
-import cn.unminded.rtool.util.CollectionUtil;
+import cn.unminded.rtool.util.CollectionUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -25,7 +25,7 @@ public class RtoolRuleAutoConfiguration {
     public CompositeRule compositeRule(ApplicationContext applicationContext) {
         CompositeRule compositeRule = new CompositeRule();
         Map<String, Rule> beansOfType = applicationContext.getBeansOfType(Rule.class);
-        if (CollectionUtil.notNullAndEmpty(beansOfType)) {
+        if (CollectionUtils.isNotEmpty(beansOfType)) {
             compositeRule.getRules().addAll(beansOfType.values());
             if (compositeRule.getSorted()) {
                 compositeRule.setSorted(DefaultValue.FALSE);

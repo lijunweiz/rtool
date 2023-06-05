@@ -16,9 +16,9 @@ import java.util.Random;
 /**
  * 安全工具类，当前仅支持AES加解密操作
  */
-public final class SecurityUtil {
+public final class SecurityUtils {
 
-    private SecurityUtil() {
+    private SecurityUtils() {
         throw new UnsupportedOperationException();
     }
 

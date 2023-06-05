@@ -49,6 +49,7 @@
         <logback.version>1.2.10</logback.version>
         <jackson.version>2.13.3</jackson.version>
         <aviator.version>5.3.0</aviator.version>
+        <thumbnailator.version>0.4.19</thumbnailator.version>
         <junit.version>4.13</junit.version>
         <mockito.version>4.0.0</mockito.version>
         <byte-buddy.version>1.11.19</byte-buddy.version>
@@ -109,6 +110,12 @@
                 <groupId>com.googlecode.aviator</groupId>
                 <artifactId>aviator</artifactId>
                 <version>${aviator.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator  图片处理工具-->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

@@ -1,6 +1,6 @@
 package cn.unminded.rtool.core;
 
-import cn.unminded.rtool.util.JSONUtil;
+import cn.unminded.rtool.util.JSONUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ public class RuleTemplateTest {
 		RuleTemplate ruleTemplate = new RuleTemplate();
 		ruleTemplate.execute(context, compositeRule);
 		
-		System.out.println(JSONUtil.toJSONString(context));
+		System.out.println(JSONUtils.toJSONString(context));
 
 		Assert.assertTrue(context.getPass());
 	}

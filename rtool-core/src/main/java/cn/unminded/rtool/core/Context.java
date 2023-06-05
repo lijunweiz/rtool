@@ -1,6 +1,6 @@
 package cn.unminded.rtool.core;
 
-import cn.unminded.rtool.util.IDUtil;
+import cn.unminded.rtool.util.IDUtils;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class Context implements Serializable {
 	private final Map<String, Object> data = new HashMap<>();
 	
 	public Context() {
-		this.contextId = IDUtil.uuid();
+		this.contextId = IDUtils.uuid();
 		this.pass = DefaultValue.TRUE;
 	}
 	

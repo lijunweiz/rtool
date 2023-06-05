@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public final class IOUtil {
+public final class IOUtils {
 
     /**
      * 读取文件缓冲区大小
      */
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    private IOUtil() {
+    private IOUtils() {
         throw new UnsupportedOperationException();
     }
 
@@ -147,11 +147,11 @@ public final class IOUtil {
      */
     public static String readString(InputStream in) throws IOException {
         if (Objects.isNull(in)) {
-            return StringUtil.EMPTY;
+            return StringUtils.EMPTY;
         }
 
         byte[] bytes = readByte(in);
-        return bytes.length == 0 ? StringUtil.EMPTY : new String(bytes, StandardCharsets.UTF_8).trim();
+        return bytes.length == 0 ? StringUtils.EMPTY : new String(bytes, StandardCharsets.UTF_8).trim();
     }
 
     /**
@@ -162,11 +162,11 @@ public final class IOUtil {
      */
     public static String readString(InputStream in, Charset charset) throws IOException {
         if (Objects.isNull(in)) {
-            return StringUtil.EMPTY;
+            return StringUtils.EMPTY;
         }
 
         byte[] bytes = readByte(in);
-        return bytes.length == 0 ? StringUtil.EMPTY : new String(bytes, charset).trim();
+        return bytes.length == 0 ? StringUtils.EMPTY : new String(bytes, charset).trim();
     }
 
 }

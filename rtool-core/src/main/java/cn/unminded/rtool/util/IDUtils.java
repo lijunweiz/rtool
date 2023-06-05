@@ -7,9 +7,9 @@ import cn.unminded.rtool.id.UUIDIdGenerator;
 /**
  * id生成工具
  */
-public class IDUtil {
+public class IDUtils {
 
-    private IDUtil() {
+    private IDUtils() {
         throw new UnsupportedOperationException();
     }
 
