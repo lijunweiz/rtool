@@ -25,13 +25,15 @@ public class CollectionUtils {
      */
     public static boolean isNotEmpty(Object obj) {
         if (obj instanceof Collection) {
-            Collection<?> collection = Collection.class.cast(obj);
+            Collection<?> collection = (Collection) obj;
             return !isEmpty(collection);
         } else if (obj instanceof Map) {
-            Map<?, ?> map = Map.class.cast(obj);
+            Map<?, ?> map = (Map) obj;
             return !isEmpty(map);
+        } else if (obj instanceof Object[]) {
+            return ((Object[]) obj).length > 0;
         } else if (obj instanceof String) {
-            return String.class.cast(obj).isEmpty();
+            return ((String) obj).isEmpty();
         } else {
             return false;
         }
