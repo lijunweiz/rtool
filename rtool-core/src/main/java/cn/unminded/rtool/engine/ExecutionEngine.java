@@ -8,14 +8,14 @@ import cn.unminded.rtool.engine.aviator.AviatorEngine;
 public final class ExecutionEngine {
 
     public static Engine getDefaultEngine() {
-        return ExecutionEngineHold.AVIATOR_ENGINE;
+        return ExecutionEngineHolder.AVIATOR_ENGINE;
     }
 
     public static Engine getAviatorEngine() {
-        return ExecutionEngineHold.AVIATOR_ENGINE;
+        return ExecutionEngineHolder.AVIATOR_ENGINE;
     }
 
-    private static class ExecutionEngineHold {
+    private static class ExecutionEngineHolder {
         private static final AviatorEngine AVIATOR_ENGINE = new AviatorEngine();
     }
 

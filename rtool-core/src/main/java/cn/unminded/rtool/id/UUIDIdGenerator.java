@@ -16,7 +16,7 @@ public class UUIDIdGenerator implements IdGenerator<String> {
      * 只是对生成的uuid替换其中的横线"-" 共32位字符
      * @return
      */
-    private synchronized String nextId() {
+    private String nextId() {
         return UUID.randomUUID().toString().replace("-", "");
     }
 

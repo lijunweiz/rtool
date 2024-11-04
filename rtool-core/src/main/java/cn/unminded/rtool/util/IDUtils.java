@@ -32,7 +32,8 @@ public class IDUtils {
     private static class IdGeneratorHolder {
         private final static String DATACENTER_ID = System.getProperty("datacenterId", "1");;
         private final static String MACHINE_ID = System.getProperty("machineId", "1");;
-        private final static IdGenerator<Long> SNOWFLAKE_ID_GENERATOR = new SnowflakeIdGenerator(Integer.parseInt(DATACENTER_ID), Integer.parseInt(MACHINE_ID));
+        private final static IdGenerator<Long> SNOWFLAKE_ID_GENERATOR =
+                new SnowflakeIdGenerator(Integer.parseInt(DATACENTER_ID), Integer.parseInt(MACHINE_ID));
         private final static IdGenerator<String> UUID_ID_GENERATOR = new UUIDIdGenerator();
     }
 

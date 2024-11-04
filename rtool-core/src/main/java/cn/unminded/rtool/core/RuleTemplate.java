@@ -48,7 +48,7 @@ public class RuleTemplate extends RuleSupport implements Operations {
 		}
 
 		if (rule instanceof CompositeRule) {
-			CompositeRule rules = CompositeRule.class.cast(rule);
+			CompositeRule rules = (CompositeRule) rule;
 			logger.info("发现复合规则: {}", rules.getName());
 			for (Rule item : rules.getRules()) {
 				logger.info("处理的当前规则rule: {}", item.getName());

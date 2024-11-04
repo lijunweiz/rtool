@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * token缓
+ * token缓存
  */
 public class TokenCache {
     private final Logger logger = LoggerFactory.getLogger(TokenCache.class);

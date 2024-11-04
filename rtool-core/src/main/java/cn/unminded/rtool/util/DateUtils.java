@@ -16,9 +16,13 @@ public final class DateUtils {
     public static final ZoneId DEFAULT_ZONE_ID = ZoneId.of(DEFAULT_ZONE_OFFSET.getId());
     public static final Locale DEFAULT_LOCALE = Locale.CHINA;
     public static final Clock DEFAULT_CLOCK = Clock.system(DEFAULT_ZONE_ID);
-    public static final DateTimeFormatter YMD_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd").withLocale(DEFAULT_LOCALE).withZone(DEFAULT_ZONE_ID);
-    public static final DateTimeFormatter YMD_HMS_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withLocale(DEFAULT_LOCALE).withZone(DEFAULT_ZONE_ID);
-    public static final DateTimeFormatter YMD_HMS_3S_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").withLocale(DEFAULT_LOCALE).withZone(DEFAULT_ZONE_ID);
+    public static final DateTimeFormatter YMD_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            .withLocale(DEFAULT_LOCALE)
+            .withZone(DEFAULT_ZONE_ID);
+    public static final DateTimeFormatter YMD_HMS_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            .withLocale(DEFAULT_LOCALE).withZone(DEFAULT_ZONE_ID);
+    public static final DateTimeFormatter YMD_HMS_3S_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")
+            .withLocale(DEFAULT_LOCALE).withZone(DEFAULT_ZONE_ID);
 
     public static LocalDateTime now() {
         return LocalDateTime.now(DEFAULT_ZONE_ID);

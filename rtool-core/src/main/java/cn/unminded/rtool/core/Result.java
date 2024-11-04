@@ -1,7 +1,14 @@
 package cn.unminded.rtool.core;
 
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
+
+    public static final Integer OK_CODE = 1;
+    public static final Integer FAIL_CODE = 0;
+    public static final String OK_MSG = "处理成功";
+    public static final String FAIL_MSG = "处理失败";
 
     private Integer code;
 
@@ -55,19 +62,19 @@ public class Result {
     }
 
     public static Result ok() {
-        return new Result(DefaultValue.INT_200,DefaultValue.MSG_SUCCESS, null);
+        return new Result(OK_CODE, OK_MSG, null);
     }
 
     public static Result ok(Object data) {
-        return new Result(DefaultValue.INT_200, DefaultValue.MSG_SUCCESS, data);
+        return new Result(OK_CODE, OK_MSG, data);
     }
 
     public static Result ok(Integer code) {
-        return new Result(code, DefaultValue.MSG_SUCCESS, null);
+        return new Result(code, OK_MSG, null);
     }
 
     public static Result ok(String desc) {
-        return new Result(DefaultValue.INT_200, desc, null);
+        return new Result(OK_CODE, desc, null);
     }
 
     public static Result ok(Integer code, String desc) {
@@ -79,15 +86,15 @@ public class Result {
     }
 
     public static Result fail() {
-        return new Result(DefaultValue.INT_400, DefaultValue.MSG_FAIL, null);
+        return new Result(FAIL_CODE, FAIL_MSG, null);
     }
 
     public static Result fail(Integer code) {
-        return new Result(code, DefaultValue.MSG_FAIL, null);
+        return new Result(code, FAIL_MSG, null);
     }
 
     public static Result fail(String desc) {
-        return new Result(DefaultValue.INT_400, desc, null);
+        return new Result(FAIL_CODE, desc, null);
     }
 
     public static Result fail(Integer code, String desc) {

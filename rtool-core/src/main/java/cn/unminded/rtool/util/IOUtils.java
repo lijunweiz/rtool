@@ -73,8 +73,6 @@ public final class IOUtils {
                 n = in.read(b);
             }
             out.flush();
-        } catch (IOException e) {
-            throw e;
         }
     }
 
@@ -98,8 +96,6 @@ public final class IOUtils {
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
             return reader.lines().collect(Collectors.toList());
-        } catch (IOException e) {
-            throw e;
         }
     }
 
