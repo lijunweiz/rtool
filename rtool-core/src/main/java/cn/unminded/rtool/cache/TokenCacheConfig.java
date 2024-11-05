@@ -2,35 +2,35 @@ package cn.unminded.rtool.cache;
 
 public class TokenCacheConfig {
 
-    private int tokenExpireSeconds = 300;
+    private Integer tokenExpireSeconds = 300;
 
-    private int initCheckDelaySeconds = 30;
+    private Integer initCheckDelaySeconds = 30;
 
-    private int checkDelaySeconds = 300;
+    private Integer checkDelaySeconds = 300;
 
-    public int getTokenExpireSeconds() {
+    public Integer getTokenExpireSeconds() {
         return tokenExpireSeconds;
     }
 
-    public TokenCacheConfig setTokenExpireSeconds(int tokenExpireSeconds) {
+    public TokenCacheConfig setTokenExpireSeconds(Integer tokenExpireSeconds) {
         this.tokenExpireSeconds = tokenExpireSeconds;
         return this;
     }
 
-    public int getInitCheckDelaySeconds() {
+    public Integer getInitCheckDelaySeconds() {
         return initCheckDelaySeconds;
     }
 
-    public TokenCacheConfig setInitCheckDelaySeconds(int initCheckDelaySeconds) {
+    public TokenCacheConfig setInitCheckDelaySeconds(Integer initCheckDelaySeconds) {
         this.initCheckDelaySeconds = initCheckDelaySeconds;
         return this;
     }
 
-    public int getCheckDelaySeconds() {
+    public Integer getCheckDelaySeconds() {
         return checkDelaySeconds;
     }
 
-    public TokenCacheConfig setCheckDelaySeconds(int checkDelaySeconds) {
+    public TokenCacheConfig setCheckDelaySeconds(Integer checkDelaySeconds) {
         this.checkDelaySeconds = checkDelaySeconds;
         return this;
     }

@@ -44,9 +44,12 @@ public class TokenCache {
      * @param cacheConfig 用户配置
      */
     public void initTokenCache(TokenCacheConfig cacheConfig) {
-        long delaySeconds = Math.max(cacheConfig.getInitCheckDelaySeconds(), DEFAULT_EXPIRE_SECONDS);
-        long tokenExpireSeconds = Math.max(cacheConfig.getTokenExpireSeconds(), DEFAULT_EXPIRE_SECONDS);
-        long checkDelaySeconds = Math.max(cacheConfig.getInitCheckDelaySeconds(), DEFAULT_EXPIRE_SECONDS);
+        long delaySeconds = Objects.nonNull(cacheConfig.getInitCheckDelaySeconds()) ?
+                cacheConfig.getInitCheckDelaySeconds() : DEFAULT_EXPIRE_SECONDS;
+        long tokenExpireSeconds = Objects.nonNull(cacheConfig.getTokenExpireSeconds()) ?
+                cacheConfig.getTokenExpireSeconds() : DEFAULT_EXPIRE_SECONDS;
+        long checkDelaySeconds = Objects.nonNull(cacheConfig.getCheckDelaySeconds()) ?
+                cacheConfig.getCheckDelaySeconds() : DEFAULT_EXPIRE_SECONDS;
         long expireMillis = tokenExpireSeconds * 1000;
 
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(r -> {
